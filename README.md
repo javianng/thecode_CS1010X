@@ -2,4 +2,4 @@
 
 This is the repository for all CS1010X Codes.
 In here will be practice code that I am backing up to github.
-This all belongs to Javian Ng.
+This belongs to Javian Ng.
