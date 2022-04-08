@@ -24,3 +24,20 @@ def calc_integral(f, a, b, n):
     return total * h / 3.0
 
 # Question 2
+
+def fold(op, f, n):
+    if n == 0:
+        return f(0)
+    return op(f(n), fold(op, f, n-1))
+
+def g(k):
+    return fold(lambda x,y: x*y, lambda x: (x - ((x+1) ** 2)), k)
+
+# print(g(0))
+# print(g(3))
+# print(g(8))
+
+# Question 3
+
+def accumulate(combiner, base, term, a, next, b):
+    return 
