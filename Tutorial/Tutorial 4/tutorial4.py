@@ -39,5 +39,71 @@ def g(k):
 
 # Question 3
 
+# 3(a)
+
 def accumulate(combiner, base, term, a, next, b):
+    
+    if a > b:
+        return base
+
+    return combiner(term(a), accumulate(combiner, base, term, next(a), next, b))
+
+# 3(b)
+
+def accumulate(combiner, base, term, a, next, b):
+    terms = ()
+
+    # generate all the terms in reverse order
+    
+    while a <= b :
+        terms = (term(a),) + terms
+        a = next(a)
+
+    # combine the terms
+    
+    result = base
+    for term in terms:
+        result = combiner(term, result)
+
+    return result
+
+# Question 4
+
+def sum(term, a, next, b):
+    return accumulate(lambda x,y: x+y, 0, term, a, next, b) 
+
+# Question 5
+
+def accumulate_iter(combiner, null_value, term, a, next, b):
+    terms = ()
+
+    # generate all the terms in reverse order
+    
+    while a <= b :
+        terms = (term(a),) + terms
+        a = next(a)
+
+    # combine the terms
+    
+    result = null_value
+    for term in terms:
+        result = combiner(term, result)
+        
+    return result
+
+# Question 6
+
+def make_point(x, y):
+    #Your code here
     return 
+
+def x_point(p):
+    #Your code here
+    return 
+    
+def y_point(p):
+    #Your code here
+    return 
+
+#For running public test case, do not delete
+p1 = make_point(2, 3)
