@@ -1,16 +1,26 @@
-def calc_integral(f, a, b, n):
+# Question 1
 
-    h = (b-a)/n
+def calc_integral(f, a, b, n):
     
-    for counter in range(n):
+    h = (b - a) / n
+
+    counter, total = 0, 0
+    
+    while counter <= n:
         
-        if counter == 0 and counter == n:
-            return 1
+        term = f(a + (counter * h))
         
-        elif counter%2 == 0:
-            return 4
-        
+        if counter == 0 or counter == n:
+            total += term
+            
+        elif counter % 2 == 0:
+            total += 2*term
+            
         else:
-            return 2
-        
-    return 
+            total += 4*term
+            
+        counter += 1
+
+    return total * h / 3.0
+
+# Question 2
