@@ -1,5 +1,8 @@
 # Question 3: Making the Stack
 
+from logging import raiseExceptions
+
+
 def make_stack(seq):
     return list(seq)
 
@@ -74,7 +77,8 @@ def peek_stack(stack):
     
 def clear_stack(stack):
     # modifies the stack to be empty and returns the stack
-    pass # your code here
+    stack.clear()
+    return stack
 
 
 ##########################################
@@ -89,3 +93,59 @@ peek2 = peek_stack(s2) #5                #
 clear_stack(s2)                          #
 peek3 = peek_stack(s2) #None             #
 ##########################################
+
+# Question 6: The postfix expression
+
+def calculate(inputs):
+    # you may assume that the input is always valid, 
+    # i.e. you do not need to check that the stack has at 
+    # least 2 elements if you encounter an operator
+
+    # create tuple_list for inputs and reverse it, allow for easier removal of elements
+    
+    tuple_list = make_stack(inputs)
+    tuple_list.reverse()
+    # print(tuple_list)
+    
+    # create calculation_list for calculation and storing of inspected elements
+    
+    calculation_list = make_empty_stack()
+    # print(calculation_list)
+    
+    # create a loop to decide on next move
+    
+    while len(tuple_list) > 0:
+        if isinstance(peek_stack(tuple_list), int):
+            push_stack(calculation_list, peek_stack(tuple_list))
+            pop_stack(tuple_list)
+            # print("calculation_list: " + str(calculation_list))
+            
+        elif isinstance(peek_stack(tuple_list), str):
+            first_element = pop_stack(calculation_list)
+            # print("first_element: " + str(first_element))
+            second_element = pop_stack(calculation_list)
+            # print("second_element: " + str(second_element))
+            
+            if peek_stack(tuple_list) == '+':
+                # print("+ detected")
+                pop_stack(tuple_list)
+                calculated_element = first_element + second_element
+                # print("calculated_element: " + str(calculated_element))
+                push_stack(calculation_list, calculated_element)
+                # print("calculation_list: " + str(calculation_list))
+                
+            elif peek_stack(tuple_list) == '*':
+                # print("* detected")
+                pop_stack(tuple_list)
+                calculated_element = first_element * second_element
+                # print("calculated_element: " + str(calculated_element))
+                push_stack(calculation_list, calculated_element)
+                # print("calculation_list: " + str(calculation_list))
+                
+            elif peek_stack(tuple_list) == '/':
+                pop_stack(tuple_list)
+                calculated_element = first_element / second_element
+                push_stack(calculation_list, calculated_element)
+    return int(calculation_list[0])
+
+print(calculate((5, 2, '/', 4, '*')))
