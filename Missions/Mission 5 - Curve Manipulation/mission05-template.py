@@ -21,7 +21,23 @@ def connect_rigidly(curve1 , curve2 ):
 ##########
 
 def connect_ends(curve1, curve2):
-    curve = connect_rigidly(curve1, curve2)
+    end_1 = curve1(1)
+    start_2 = curve2(0)
+    
+    end_1_x = x_of(end_1)
+    end_1_y = y_of(end_1)
+    
+    start_2_x = x_of(start_2)
+    start_2_y = y_of(start_2)
+    
+    offset_x = end_1_x - start_2_x
+    offset_y = end_1_y - start_2_y
+    
+    return connect_rigidly(curve1, translate(offset_x, offset_y)(curve2))
+
+# draw_connected_scaled(200, connect_ends(arc, unit_line))
+# draw_connected_scaled(200, connect_ends(translate(5,5)(arc), translate(1,1)(unit_line)))
+    
     
 # testing
 # draw_connected_scaled(200, connect_ends(arc, unit_line))
