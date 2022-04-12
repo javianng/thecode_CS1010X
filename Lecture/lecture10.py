@@ -1,6 +1,7 @@
 # Question 3: Making the Stack
 
 from logging import raiseExceptions
+from re import S
 
 
 def make_stack(seq):

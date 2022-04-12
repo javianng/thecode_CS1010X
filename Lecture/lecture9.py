@@ -15,3 +15,4 @@ lst1 = [1, 5, 1, 1, 3]
 lst2 = [2, 2, 2, 1, 5, 4, 4]
 result1 = remove_extras(lst1)
 result2 = remove_extras(lst2)
+print(remove_extras(lst1))
