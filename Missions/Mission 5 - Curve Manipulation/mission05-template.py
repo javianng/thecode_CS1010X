@@ -74,4 +74,4 @@ def your_gosperize_with_angle(theta):
 
 # testing
 # draw_connected(200, your_gosper_curve_with_angle(10, lambda lvl: pi/(2+lvl)))
-draw_connected(200, your_gosper_curve_with_angle(5, lambda lvl: (pi/(2+lvl))/(pow(1.3, lvl))))
+# draw_connected(200, your_gosper_curve_with_angle(5, lambda lvl: (pi/(2+lvl))/(pow(1.3, lvl))))

@@ -7,7 +7,7 @@ def fib(n):
     else:
         return fib(n - 1) + fib(n - 2)
 
-trace(fib)
-fib(3)
-untrace(fib)
-fib(3)
+# trace(fib)
+# fib(3)
+# untrace(fib)
+# fib(3)
