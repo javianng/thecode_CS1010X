@@ -60,8 +60,7 @@ test_train = make_train('TRAIN 0-0')
 #############
 
 def get_train_code(train):
-    '''your code here'''
-    pass
+    return train[0]
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 1A
 # print("## Task 1a ##")
@@ -75,28 +74,40 @@ def get_train_code(train):
 #############
 
 def make_line(name, stations):
-    '''your code here'''
-    pass
+    return (name, stations)
 
 def get_line_name(line):
-    '''your code here'''
-    pass
+    return line[0]
 
 def get_line_stations(line):
-    '''your code here'''
-    pass
+    return line[1]
 
 def get_station_by_name(line, station_name):
-    '''your code here'''
-    pass
+    for i in get_line_stations(line):
+        if get_station_name(i) == station_name:
+            return i
+        else:
+            continue
+    else:
+        return None
 
 def get_station_by_code(line, station_code):
-    '''your code here'''
-    pass
+    for i in get_line_stations(line):
+        if get_station_code(i) == station_code:
+            return i
+        else:
+            continue
+    else:
+        return None
 
 def get_station_position(line, station_code):
-    '''your code here'''
-    pass
+    for i in get_line_stations(line):
+        if get_station_code(i) == station_code:
+            return line.index(i)
+        else:
+            continue
+    else:
+        return None
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 1B
 # print("## Task 1b ##")
@@ -105,6 +116,7 @@ def get_station_position(line, station_code):
 # print(get_line_stations(test_line))
 # print(get_station_by_name(test_line, 'Bras Basah'))
 # print(get_station_by_code(test_line, 'CC4'))
+# print(get_station_position(test_line, 'CC4'))
 
 # Expected Output #
 # Circle Line
@@ -121,24 +133,30 @@ def make_train_position(is_moving, from_station, to_station):
     return (is_moving, from_station, to_station)
 
 def get_is_moving(train_position):
-    '''your code here'''
-    pass
+    return train_position[0]
 
 def get_direction(line, train_position):
-    '''your code here'''
-    pass
+    station_1 = get_station_position(line, train_position[1])
+    station_2 = get_station_position(line, train_position[2])
+    if station_1 > station_2:
+        return 1
+    else:
+        return 0
 
 def get_stopped_station(train_position):
-    '''your code here'''
-    pass
+    if get_is_moving(train_position) == True:
+        return None
+    else:
+        return train_position[1]
 
 def get_previous_station(train_position):
-    '''your code here'''
-    pass
+    if get_is_moving(train_position) == False:
+        return None
+    else:
+        return train_position[1]
 
 def get_next_station(train_position):
-    '''your code here'''
-    pass
+    return train_position[2]
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 1C
 # print("## Task 1c ##")
