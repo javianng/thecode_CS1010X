@@ -103,7 +103,8 @@ def get_station_by_code(line, station_code):
 def get_station_position(line, station_code):
     for i in get_line_stations(line):
         if get_station_code(i) == station_code:
-            return line.index(i)
+            index = line.index(i)
+            return index
         else:
             continue
     else:
@@ -111,11 +112,12 @@ def get_station_position(line, station_code):
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 1B
 # print("## Task 1b ##")
-# test_line = make_line('Circle Line', (test_station1, test_station2, test_station3))
+test_line = make_line('Circle Line', (test_station1, test_station2, test_station3))
 # print(get_line_name(test_line))
 # print(get_line_stations(test_line))
 # print(get_station_by_name(test_line, 'Bras Basah'))
 # print(get_station_by_code(test_line, 'CC4'))
+# print(get_station_position(test_line, 'CC4'))
 # print(get_station_position(test_line, 'CC4'))
 
 # Expected Output #
@@ -160,8 +162,8 @@ def get_next_station(train_position):
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 1C
 # print("## Task 1c ##")
-# test_train_position1 = make_train_position(False, test_station1, test_station2)
-# test_train_position2 = make_train_position(True, test_station3, test_station2)
+test_train_position1 = make_train_position(False, test_station1, test_station2)
+test_train_position2 = make_train_position(True, test_station3, test_station2)
 # print(get_is_moving(test_train_position2))
 # print(get_direction(test_line, test_train_position1))
 # print(get_stopped_station(test_train_position1))
@@ -180,25 +182,21 @@ def get_next_station(train_position):
 #############
 
 def make_schedule_event(train, train_position, time):
-    '''your code here'''
-    pass
+    return (train, train_position, time)
 
 def get_train(schedule_event):
-    '''your code here'''
-    pass
+    return schedule_event[0]
 
 def get_train_position(schedule_event):
-    '''your code here'''
-    pass
+    return schedule_event[1]
 
 def get_schedule_time(schedule_event):
-    '''your code here'''
-    pass
+    return schedule_event[2]
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 1D
 # print("## Task 1d ##")
-# test_bd_event1 = make_schedule_event(test_train, test_train_position2, datetime.datetime(2016, 1, 1, 9, 27))
-# test_bd_event2 = make_schedule_event(test_train, test_train_position1, datetime.datetime(2016, 1, 1, 2, 25))
+test_bd_event1 = make_schedule_event(test_train, test_train_position2, datetime.datetime(2016, 1, 1, 9, 27))
+test_bd_event2 = make_schedule_event(test_train, test_train_position1, datetime.datetime(2016, 1, 1, 2, 25))
 # print(get_train(test_bd_event1))
 # print(get_train_position(test_bd_event1))
 # print(get_schedule_time(test_bd_event1))
@@ -233,17 +231,23 @@ def parse_lines(data_file):
     for row in rows:
         code, station_name, line_name = row
         if line_name == curr_line_name:
-            # Addition #1
-            pass
+            # Addition 1
+            curr_line_stations += (make_station(code, station_name),)
         else:
             # Addition #2
-            pass
+            this_line = make_line(curr_line_name, curr_line_stations)
+            lines += (this_line, )
+            curr_line_name = line_name
+            curr_line_stations = ()
+            curr_line_stations += (make_station(code, station_name),)
     # Addition #3
+    this_line = make_line(curr_line_name, curr_line_stations)
+    lines += (this_line, )
     return lines
 
 # UNCOMMENT THE CODE BELOW WHEN YOU ARE DONE WITH TASK 2A. THIS IS NOT OPTIONAL TESTING!
-# LINES = parse_lines('station_info.csv')
-# CCL = filter(lambda line: get_line_name(line) == 'Circle Line', LINES)[0]
+LINES = parse_lines('station_info.csv')
+CCL = filter(lambda line: get_line_name(line) == 'Circle Line', LINES)[0]
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 2A
 # print("## Task 2a ##")
@@ -256,16 +260,31 @@ def parse_lines(data_file):
 # Task 2b   #
 #############
 
-def parse_events_in_line(data_file, line):
+def parse_events_in_line(data_file):
     rows = read_csv(data_file)[1:]
     events = ()
     for row in rows:
-        # Your code here
-        pass
+        # edit here
+        from_station = get_station_by_code(CCL, row[2])
+        to_station = get_station_by_code(CCL, row[3])
+        def truth_converter(x):
+            if x == 'True':
+                return True
+            else:
+                return False
+        position = make_train_position(truth_converter(row[1]), from_station, to_station)
+        train = make_train(row[0])
+        if len(row[5]) > 3:
+            time = datetime.datetime(2017, 1, 6, (int(row[5][0] + row[5][1])), (int(row[5][3] + row[5][4])))
+        else:
+            time = datetime.datetime(2017, 1, 6, (int(row[5][0])), (int(row[5][2] + row[5][3])))
+        this_event = make_schedule_event(train, position, time)
+        events += (this_event, )
     return events
 
+
 # UNCOMMENT THE CODE BELOW WHEN YOU ARE DONE WITH TASK 2B. THIS IS NOT OPTIONAL TESTING!
-# BD_EVENTS = parse_events_in_line('breakdown_events.csv', CCL)
+BD_EVENTS = parse_events_in_line('breakdown_events.csv', CCL)
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 2B
 # print("## Task 2b ##")
