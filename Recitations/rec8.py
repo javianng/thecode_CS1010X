@@ -14,7 +14,7 @@ print(b[5])
 
 print(b[1])
 
-# ("orange", 4)
+# Traceback error
 
 b["bad"] = "better"
 b[1] = "good"
