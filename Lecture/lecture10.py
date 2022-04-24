@@ -97,56 +97,86 @@ peek3 = peek_stack(s2) #None             #
 
 # Question 6: The postfix expression
 
+# def calculate(inputs):
+
+#     # you may assume that the input is always valid, 
+#     # i.e. you do not need to check that the stack has at 
+#     # least 2 elements if you encounter an operator
+    
+#     # create calculation_list for calculation and storing of inspected elements
+    
+#     calculation_list = make_empty_stack()
+#     reversed_inputs = list(inputs)
+#     reversed_inputs.reverse()
+    
+#     # create a loop to decide on next move
+    
+#     for element in inputs:
+        
+#         if isinstance(peek_stack(reversed_inputs), int):
+#             push_stack(calculation_list, peek_stack(reversed_inputs))
+#             pop_stack(reversed_inputs)
+            
+#         elif isinstance(peek_stack(reversed_inputs), str):
+#             first_element = pop_stack(calculation_list)
+#             second_element = pop_stack(calculation_list)
+            
+#             if peek_stack(reversed_inputs) == '+':
+#                 pop_stack(reversed_inputs)
+#                 calculated_element = first_element + second_element
+#                 push_stack(calculation_list, calculated_element)
+                
+#             elif peek_stack(reversed_inputs) == '*':
+#                 pop_stack(reversed_inputs)
+#                 calculated_element = first_element * second_element
+#                 push_stack(calculation_list, calculated_element)
+                
+#             elif peek_stack(reversed_inputs) == '/':
+#                 pop_stack(reversed_inputs)
+#                 calculated_element = second_element / first_element
+#                 push_stack(calculation_list, calculated_element)
+#     return int(calculation_list[0])
+
 def calculate(inputs):
-    # you may assume that the input is always valid, 
-    # i.e. you do not need to check that the stack has at 
-    # least 2 elements if you encounter an operator
-
-    # create tuple_list for inputs and reverse it, allow for easier removal of elements
     
-    tuple_list = make_stack(inputs)
-    tuple_list.reverse()
-    # print(tuple_list)
+    temporary_list = [] # to store the integers to be calculated and ultimately the answer to be returned
     
-    # create calculation_list for calculation and storing of inspected elements
-    
-    calculation_list = make_empty_stack()
-    # print(calculation_list)
-    
-    # create a loop to decide on next move
-    
-    while len(tuple_list) > 0:
-        if isinstance(peek_stack(tuple_list), int):
-            push_stack(calculation_list, peek_stack(tuple_list))
-            pop_stack(tuple_list)
-            # print("calculation_list: " + str(calculation_list))
+    for counter in range(len(inputs)):
+        
+        if isinstance(inputs[counter], int):
             
-        elif isinstance(peek_stack(tuple_list), str):
-            first_element = pop_stack(calculation_list)
-            # print("first_element: " + str(first_element))
-            second_element = pop_stack(calculation_list)
-            # print("second_element: " + str(second_element))
+            # print("int: " + str(inputs[counter]))
             
-            if peek_stack(tuple_list) == '+':
-                # print("+ detected")
-                pop_stack(tuple_list)
-                calculated_element = first_element + second_element
-                # print("calculated_element: " + str(calculated_element))
-                push_stack(calculation_list, calculated_element)
-                # print("calculation_list: " + str(calculation_list))
+            temporary_list.append(inputs[counter])
+            
+        elif isinstance(inputs[counter], str):
+            
+            # print("str detected")
+            
+            second_element = pop_stack(temporary_list)
+            first_element = pop_stack(temporary_list)
+            
+            # print("first element: " + str(first_element))
+            # print("second element: " + str(second_element))
+            
+            if inputs[counter] == "+":
+                calculated_element = second_element + first_element
+                push_stack(temporary_list, calculated_element)
                 
-            elif peek_stack(tuple_list) == '*':
-                # print("* detected")
-                pop_stack(tuple_list)
-                calculated_element = first_element * second_element
-                # print("calculated_element: " + str(calculated_element))
-                push_stack(calculation_list, calculated_element)
-                # print("calculation_list: " + str(calculation_list))
+            elif inputs[counter] == "*":
+                calculated_element = second_element * first_element
+                push_stack(temporary_list, calculated_element)
                 
-            elif peek_stack(tuple_list) == '/':
-                pop_stack(tuple_list)
+            elif inputs[counter] == "/":
                 calculated_element = first_element / second_element
-                push_stack(calculation_list, calculated_element)
-    return int(calculation_list[0])
+                push_stack(temporary_list, calculated_element)
+            
+            elif inputs[counter] == "-":
+                calculated_element = first_element - second_element
+                push_stack(temporary_list, calculated_element)
 
-print(calculate((5, 2, '/', 4, '*')))
+    return int(temporary_list[0])
+
+# print(calculate((5, 2, '/', 4, '*')))
+# print(calculate((28, )))
+# print(calculate((1, 2, '+', 3, '/')))
