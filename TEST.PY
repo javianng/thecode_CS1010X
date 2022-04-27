@@ -1,11 +1,11 @@
-#####################
-# Question Function #
-#####################
+###################
+# Headig Function #
+###################
 
-def question_number_imput(number):
-    str_number = str(number)
-    print("#" * (len(str_number) + 13))
-    print("# Question " + str(number) + " #")
-    print("#" * (len(str_number) + 13))
+def heading_imput(title):
+    str_title = str(title)
+    print("#" * (len(str_title) + 4))
+    print("# " + str(title) + " #")
+    print("#" * (len(str_title) + 4))
 
-question_number_imput(" ")
+heading_imput("Apple")
