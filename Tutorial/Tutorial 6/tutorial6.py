@@ -150,3 +150,17 @@ print(transpose(matrix1))
 
 # Question 9
 
+def mode_score(students):
+    pass
+
+### DO NOT MODIFY THIS ###
+students = [('tiffany', 'A', 15), 
+            ('jane', 'B', 10),
+            ('ben', 'C', 8), 
+            ('simon', 'A', 21), 
+            ('eugene', 'A', 21), 
+            ('john', 'A', 15), 
+            ('jimmy', 'F', 1), 
+            ('charles', 'C', 9), 
+            ('freddy', 'D', 4), 
+            ('dave', 'B', 12)]
