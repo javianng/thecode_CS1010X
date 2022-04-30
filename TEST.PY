@@ -8,4 +8,4 @@ def heading_imput(title):
     print("# " + str(title) + " #")
     print("#" * (len(str_title) + 4))
 
-heading_imput("Apple")
+heading_imput("Question 1: Widget!")
