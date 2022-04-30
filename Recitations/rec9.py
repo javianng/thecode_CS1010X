@@ -1,23 +1,32 @@
 # Question 1
 
 class Food(object):
-    def _init_(self, name, nutrition_value, good_until):
+    def __init__(self, name, nutrition, good_until):
         self.name = name
-        self.nutrition_value = nutrition_value
+        self.nutrition = nutrition
         self.good_until = good_until
+        self.age = 0
         
     def sit_there(self, time):
-        self.good_until += time
+        self.age += time
     
     def eat(self):
-        if self.nutrition_value > 0:
-            return self.nutrition_value
+        if self.age <= self.good_until:
+            return self.nutrition
         else:
             return 0
 
+# Question 2
+
 class AgedFood(Food):
-    def _init_(self, good_after):
+    def __init__(self, name, nutrition, good_until, good_after):
+        super().__init__(name, nutrition, good_until)
         self.good_after = good_after
         
     def sniff(self):
-        if self.
+        if self.age > self.good_after:
+            return True
+        else:
+            return False
+        
+    def eat(self)
