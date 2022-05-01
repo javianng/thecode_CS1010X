@@ -57,6 +57,13 @@ class VendingMachine(object):
 def mapn(function, lsts):
     return tuple(map(function, *lsts)) # the * allows you to take in more than one lst
 
+def mapn(function, lsts):
+    if len(lsts) == 0 or len(lsts[0]) == 0:
+        return ()
+    else:
+        item = (map(lambda x: x[0], lsts))
+        return (function(*item),) + mapn(function, tuple(map(lambda x:x[1:], lsts)))
+
 # Question 5
 
 class VendingMachine(object):
