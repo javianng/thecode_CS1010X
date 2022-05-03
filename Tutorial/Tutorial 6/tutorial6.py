@@ -129,7 +129,7 @@ matrix1 = [[ 1, 2, 3], [4, 5, 6], [7, 8, 9]]
 matrix2 = [[ 1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
 matrix3 = [[1, 2, 3]]
 
-print(transpose(matrix1))
+# print(transpose(matrix1))
 
 # Question 8
 
@@ -151,7 +151,28 @@ print(transpose(matrix1))
 # Question 9
 
 def mode_score(students):
-    pass
+    
+    # list to store score only
+    sorted_score = []
+    for student in students:
+        sorted_score.append(student[2])
+    sorted_score.sort()  # sort list in order
+    
+    # list with number of occurrence
+    number_of_occurrence = []
+    
+    # loop through the entire list to return the number of occurrence of each element
+    i = 0
+    while i < len(sorted_score):
+        number_of_occurrence.append(sorted_score.count(sorted_score[i]))
+        i += 1
+    
+    # form a dictionary key, value pair between the element and its count
+    dictionary_number_of_occurrence = dict(zip(sorted_score, number_of_occurrence))
+    
+    # return the highest number of occurrence 
+    answer = [key for (key, value) in dictionary_number_of_occurrence.items() if value == max(number_of_occurrence)]
+    return answer
 
 ### DO NOT MODIFY THIS ###
 students = [('tiffany', 'A', 15), 
@@ -164,3 +185,42 @@ students = [('tiffany', 'A', 15),
             ('charles', 'C', 9), 
             ('freddy', 'D', 4), 
             ('dave', 'B', 12)]
+
+# print(mode_score(students))
+
+# Question 10
+
+def top_k(students, k):
+    
+    # sort students in order of score
+    sorted_students = sorted(students, key = lambda x:x[0])
+    sorted_students = sorted(sorted_students, key = lambda x:x[2], reverse = True)
+    
+    # list to be returned
+    top_k_list = []
+    
+    for counter in range(k):
+        top_k_list.append(sorted_students[counter])
+    
+    # check if the next student has the same score as the previous student
+    current_score = sorted_students[counter][2]
+    
+    for counter_ii in range(k, len(sorted_students)):
+        if sorted_students[counter_ii][2] == current_score:
+            top_k_list.append(sorted_students[counter_ii])
+    
+    return top_k_list
+
+### DO NOT MODIFY THIS ###
+students = [('tiffany', 'A', 15), 
+            ('jane', 'B', 10),
+            ('ben', 'C', 8), 
+            ('eugene', 'A', 21),
+            ('simon', 'A', 21), 
+            ('john', 'A', 15), 
+            ('jimmy', 'F', 1), 
+            ('charles', 'C', 9), 
+            ('freddy', 'D', 4), 
+            ('dave', 'B', 12)]
+
+# print(top_k(students,3))
