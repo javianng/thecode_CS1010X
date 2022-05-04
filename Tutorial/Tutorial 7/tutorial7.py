@@ -1,5 +1,8 @@
 # Question 1
 
+import code
+
+
 def accumulate(op, init, seq):
     if not seq:
         return init
@@ -129,3 +132,71 @@ def letter_count(sentence):
 
 # Question 6: English! Part 3
 
+def most_frequent_letters(sentence):
+    
+    sorted_letters = []
+    
+    for word in sentence:
+        for letter in word:
+            sorted_letters.append(letter)
+    sorted_letters.sort() # sort list in order
+    
+    # list with number of occurrence
+    number_of_occurrence = []
+    
+    # loop through the entire list to return the number of occurrence of each element
+    i = 0
+    while i < len(sorted_letters):
+        number_of_occurrence.append(sorted_letters.count(sorted_letters[i]))
+        i += 1
+        
+    # form a dictionary key, value pair between the element and its count
+    dictionary_number_of_occurrence = dict(zip(sorted_letters, number_of_occurrence))
+    
+    # return the highest number of occurrence 
+    answer = [key for (key, value) in dictionary_number_of_occurrence.items() if value == max(number_of_occurrence)]
+    
+    return answer
+    
+# Order of growth?: O(4n) where n is the number of letters
+
+# print(set(most_frequent_letters([['C', 'S', '1', '0', '1', '0', 'S'], ['R', 'o', 'c', 'k', 's']])))
+
+# Question 7: Stacking
+
+def make_queue():
+    return []
+
+def enqueue(q, item):
+    q += [item]
+    return q
+
+def dequeue(q):
+    return_element = q[0]
+    q.remove(q[0])
+    return return_element
+    
+def size(q):
+    return len(q)
+    
+### DO NOT MODIFY BEYOND THIS LINE!
+q = make_queue()
+enqueue(q, 1)
+enqueue(q, 5)
+
+# Question 8: A Bomb Game
+
+def who_wins(m, players):
+    players_queue = make_queue()
+    for player in players:
+        enqueue(players_queue, player)
+        
+    while size(players_queue) > m-1:
+        for counter in range(m):
+            enqueue(players_queue, dequeue(players_queue))
+        players_queue.remove(players_queue[0])
+        
+    return players_queue
+
+# print(who_wins(3, ['val', 'hel', 'jam', 'jin', 'tze', 'eli', 'zha', 'lic']))
+# print(who_wins(2, ['poo', 'ste', 'sim', 'nic', 'luo', 'ibr', 'sie', 'zhu']))
