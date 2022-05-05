@@ -40,12 +40,14 @@ def your_gosperize_with_angle(theta):
 
 # Choose a significant level for testing for all three sets of functions.
 
-# def repeat_five_times(function):
-#    sum = 0
-#    for i in range(5):
-#        print(function)
-#        sum += function
-#    print(sum)
+def repeat_five_times(function):
+    sum = 0
+    for i in range(5):
+        print(function)
+        sum += function
+    print(sum)
+    
+repeat_five_times(profile_fn(lambda : gosper_curve(1000)(0.1), 10))
 
 # -------------
 # gosper_curve:
