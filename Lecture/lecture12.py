@@ -107,6 +107,7 @@ def get_date_today():
     return (2013, 10, 30)
 
 def leap_year_identifier(year):
+    '''if year = leap year, return True, otherwise False'''
     if (year % 400 == 0) and (year % 100 == 0):
         return True
     elif (year % 4 ==0) and (year % 100 != 0):
@@ -120,16 +121,21 @@ class Artist(object):
         self.dob = dob
         
     def age(self):
-        if self.dob[1] == 2 and self.dob[2] == 29: 
-            if leap_year_identifier(get_date_today()[0]) == False:
-                self.dob[1], self.dob[2] = 3, 1
+        list_dob = list(self.dob)
+        # for people with birthday on 29th of feb
+        if list_dob[1] == 2 and list_dob[2] == 29:
+            # if year is not leap year
+            if leap_year_identifier(get_date_today()[0]) == True:
+                list_dob[1], list_dob[2] = 3, 1
         
-        number = get_date_today()[0] - self.dob[0]
+        # print(list_dob)
         
-        if self.dob[1] > get_date_today()[1]:
+        number = get_date_today()[0] - list_dob[0]
+        
+        if list_dob[1] > get_date_today()[1]:
             return number - 1
-        elif self.dob[1] == get_date_today()[1]:
-            if self.dob[2] >= get_date_today()[2]:
+        elif list_dob[1] == get_date_today()[1]:
+            if list_dob[2] >= get_date_today()[2]:
                 return number - 1
             else:
                 return number
@@ -139,7 +145,7 @@ class Artist(object):
 
 # Used for public test cases.
 # You DO NOT have to include this in your submission
-jt = Artist("Justin Timberlake", (1981, 1, 31))
+# jt = Artist("Justin Timberlake", (1981, 1, 31))
 
 # print(jt.age())
-# print(Artist("Hayley Williams", (1988, 12, 27)).age())
+print(Artist("Hayley Williams", (1980, 2, 29)).age())

@@ -1,5 +1,5 @@
 ###################
-# Headig Function #
+# Heading Function #
 ###################
 
 def heading_imput(title):
@@ -8,4 +8,4 @@ def heading_imput(title):
     print("# " + str(title) + " #")
     print("#" * (len(str_title) + 4))
 
-heading_imput("Question 7: Translations! Part 2")
+heading_imput("Question 4: Make Monitored! Part 2")
