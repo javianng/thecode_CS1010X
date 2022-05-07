@@ -156,3 +156,20 @@ def cut_rod(n, prices):
             else:
                 max_price[length][p] = max_price[length][p-1]
     return max_price[n][len(prices)]
+
+# Alternative
+
+def cut_rod(n, prices):
+    max_price = [0]*(n+1)
+    for length in range(1, n+1):
+        # by this time, all max_price(length-1), max_price(length-2) are
+        # all correctly computed 
+        # thus, in the for-loop with p, we can safely use them to calculate 
+        # max_price[length]
+        # this is to say that, max_price[length] in the below for-loop with p,
+        # is just a temporary one
+        for p in prices:
+            if p <= n:
+                max_price[length] = max(max_price[length], prices[p] + max_price[length-p])
+        # then, at this point, the value of max_price[length] is corretly computed
+    return max_price[n]
