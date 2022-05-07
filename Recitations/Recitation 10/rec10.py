@@ -1,4 +1,7 @@
 # Dictionary to keep track of memoized data
+from operator import le
+
+
 memoize_table = {}
 
 def memoize(f, name): # name to allow us to reference table
@@ -102,7 +105,7 @@ def print_table(table):
     for i in range(len(table)):
         print(i, " : ", table[i])
 
-print_table(dp_cc(100, 5))
+# print_table(dp_cc(100, 5))
 
 # Question 2a - recursive solution
 
@@ -119,3 +122,37 @@ def cut_rod(n, prices):
 # Test
 # prices = {1:1, 2:5, 3:8, 4:9, 5:10 , 6:17 , 7:17 , 8:20 , 9:24 , 10:30}
 # cut_rod (4, prices )
+
+# Quesiton 2 - memo
+
+seen = {}
+
+def cut_rod(n, prices):
+    if n in seen:
+        return seen[n]
+    
+    if n <= 0:
+        return 0
+    else:
+        max_price = 0
+        for p in prices: # for p in prices.keys()
+            if p <= n:
+                max_price = max(max_price, prices[p] + cut_rod(n-p, prices))
+        seen[n] = max_price
+        return max_price
+
+# Question 2b
+
+def cut_rod(n, prices):
+    max_price = []
+    row = [0] * (len(prices) + 1)
+    for i in range(n+1):
+        max_price.append()(list(row))
+        
+    for length in range(1, n+1): # row by row
+        for p in range(1, len(prices)+1): # col by col
+            if p <= length:
+                max_price[length][p] = max(max_price[length][p-1], prices[p] + max_price[length-p][p])
+            else:
+                max_price[length][p] = max_price[length][p-1]
+    return max_price[n][len(prices)]
