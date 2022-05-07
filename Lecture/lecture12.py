@@ -233,17 +233,36 @@ class Song(object):
         self.title = title
         self.duration = duration
         
-    
     def get_artist(self):
-        # Fill in your code here
-        pass
-        
+        return self.artist
     
     def get_title(self):
-        # Fill in your code here
-        pass
-        
+        return self.title
         
     def get_duration(self):
-        # Fill in your code here
-        pass
+        return self.duration
+
+######################
+# Question 10: Album #
+######################
+
+# NOTE: You DO NOT have to include the definitions of the
+#       Artist, Duration, Song and Band classes here.
+
+class Album(object):
+    def __init__(self, artist, title):
+        self.artist = artist
+        self.title = title
+        self.songs = []
+
+    def add_song(self, song):
+        self.songs.append(song)
+        
+    def total_runtime(self):
+        total_runtime = 0
+        for songs in self.songs:
+            total_runtime += songs.get_duration()
+        return total_runtime
+
+test_album = Album(artist, title)
+test_album.name
