@@ -104,48 +104,146 @@ jt = Artist("Justin Timberlake", (1981, 1, 31))
 ##########################
 
 def get_date_today():
-    return (2013, 10, 30)
+    return (2014, 11, 27)
 
-def leap_year_identifier(year):
-    '''if year = leap year, return True, otherwise False'''
-    if (year % 400 == 0) and (year % 100 == 0):
-        return True
-    elif (year % 4 ==0) and (year % 100 != 0):
-        return True
-    else:
-        return False
-    
 class Artist(object):
     def __init__(self, name, dob):
         self.name = name
         self.dob = dob
-        
+    
+    # 24 if 'today' is >= (2012, 12, 27) and < (2013, 12, 27) ; 
+    # 25 if 'today' is >= (2013, 12, 27) and < (2014, 12, 27)
+    # today is 2013, 10, 30
+    
     def age(self):
-        list_dob = list(self.dob)
-        # for people with birthday on 29th of feb
-        if list_dob[1] == 2 and list_dob[2] == 29:
-            # if year is not leap year
-            if leap_year_identifier(get_date_today()[0]) == True:
-                list_dob[1], list_dob[2] = 3, 1
+        list_dob = list(self.dob) # dob is in yyyy, m, dd format
         
-        # print(list_dob)
+        # default age based only on year
+        age_higher_est = get_date_today()[0] - list_dob[0]
         
-        number = get_date_today()[0] - list_dob[0]
+        lower_bound_date = (get_date_today()[0]-1, list_dob[1], list_dob[2])
+        middle_bound_date = (get_date_today()[0], list_dob[1], list_dob[2])
+        upper_bound_date = (get_date_today()[0]+1, list_dob[1], list_dob[2])
         
-        if list_dob[1] > get_date_today()[1]:
-            return number - 1
-        elif list_dob[1] == get_date_today()[1]:
-            if list_dob[2] >= get_date_today()[2]:
-                return number - 1
-            else:
-                return number
-        else:
-            return number
-        
+        if get_date_today() >= lower_bound_date and get_date_today() < middle_bound_date:
+            return age_higher_est-1
+        elif get_date_today() >= middle_bound_date and get_date_today() < upper_bound_date:
+            return age_higher_est
 
 # Used for public test cases.
 # You DO NOT have to include this in your submission
 # jt = Artist("Justin Timberlake", (1981, 1, 31))
 
 # print(jt.age())
-print(Artist("Hayley Williams", (1980, 2, 29)).age())
+# print(Artist("Hayley Williams", (1988, 12, 27)).age())
+
+########################
+# Question 6: Duration #
+########################
+
+class Duration(object):
+    def __init__(self, minutes, seconds):
+        self.minutes = minutes
+        self.seconds = seconds
+        self.total_seconds = seconds + minutes * 60
+        if self.seconds >= 60:
+            self.minutes += 1
+            self.seconds -= 60
+        
+    def get_minutes(self):
+        return self.minutes
+    
+    def get_seconds(self):
+        return self.seconds
+
+# print((Duration(3, 30)).total_seconds)
+# print((Duration(3, 30)).get_minutes())
+# print((Duration(3, 30)).get_seconds())
+# print((Duration(5, 80)).get_minutes())
+# print((Duration(5, 80)).get_seconds())
+
+##############################################
+# Question 7: Duration String Representation #
+##############################################
+
+class Duration(object):
+    def __init__(self, minutes, seconds):
+        self.minutes = minutes
+        self.seconds = seconds
+        self.total_seconds = seconds + minutes * 60
+        if self.seconds >= 60:
+            self.minutes += 1
+            self.seconds -= 60
+        
+    def get_minutes(self):
+        return self.minutes
+    
+    def get_seconds(self):
+        return self.seconds
+    
+    def __str__(self):
+        return str("%02d" % self.minutes) + ':' + str("%02d" % self.seconds)
+
+# print(Duration(103,20))
+# print(str(Duration(0,0)))
+
+##################################
+# Question 8: Duration Operators #
+##################################
+
+class Duration(object):
+    def __init__(self, minutes, seconds):
+        self.minutes = minutes
+        self.seconds = seconds
+        self.total_seconds = seconds + minutes * 60
+        if self.seconds >= 60:
+            self.minutes += 1
+            self.seconds -= 60
+        
+    def get_minutes(self):
+        return self.minutes
+    
+    def get_seconds(self):
+        return self.seconds
+    
+    def __str__(self):
+        return str("%02d" % self.minutes) + ':' + str("%02d" % self.seconds)
+
+    def __add__(self, duration_2):
+        combined_seconds = self.total_seconds + duration_2.total_seconds
+        return Duration(combined_seconds//60, combined_seconds%60)
+        
+    # def __add__(self, duration_2):
+    #     combined_minutes = self.minutes + duration_2.minutes
+    #     combined_seconds = self.seconds + duration_2.seconds
+    #     return Duration(combined_minutes, combined_seconds)
+
+# print(str(Duration(23,59) + Duration(12,59)))
+
+####################
+# Question 9: Song #
+####################
+
+# NOTE: You DO NOT have to include the definitions of the
+#       Artist and Duration classes here.
+
+class Song(object):
+    def __init__(self, artist, title, duration):
+        self.artist = artist
+        self.title = title
+        self.duration = duration
+        
+    
+    def get_artist(self):
+        # Fill in your code here
+        pass
+        
+    
+    def get_title(self):
+        # Fill in your code here
+        pass
+        
+        
+    def get_duration(self):
+        # Fill in your code here
+        pass
