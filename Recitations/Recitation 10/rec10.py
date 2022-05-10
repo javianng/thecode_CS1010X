@@ -107,7 +107,7 @@ def print_table(table):
 
 # print_table(dp_cc(100, 5))
 
-# Question 2a - recursive solution
+# Question 2a - Recursive solution
 
 def cut_rod(n, prices):
     if n <= 0:
@@ -141,13 +141,13 @@ def cut_rod(n, prices):
         seen[n] = max_price
         return max_price
 
-# Question 2b
+# Question 2b - Dynamic Programming # 1
 
 def cut_rod(n, prices):
     max_price = []
     row = [0] * (len(prices) + 1)
     for i in range(n+1):
-        max_price.append()(list(row))
+        max_price.append(list(row))
         
     for length in range(1, n+1): # row by row
         for p in range(1, len(prices)+1): # col by col
@@ -156,6 +156,14 @@ def cut_rod(n, prices):
             else:
                 max_price[length][p] = max_price[length][p-1]
     return max_price[n][len(prices)]
+
+prices1 = {10:30, 9:24, 8:20, 7:17, 6:17, 5:10, 4:9, 3:8, 2:5, 1:1}
+prices2 = {1:1, 2:5, 3:8, 4:9, 5:10, 6:17, 7:17, 8:20, 9:24, 10:30}
+print(cut_rod(10, prices1) == 30)
+print(cut_rod(10, prices2) == 30)
+print(cut_rod(20, prices1) == 60)
+print(cut_rod(20, prices2) == 60)
+print(cut_rod(100, prices1) == 300)
 
 # Alternative
 
