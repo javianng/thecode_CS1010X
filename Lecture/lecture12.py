@@ -259,10 +259,7 @@ class Album(object):
         self.songs.append(song)
         
     def total_runtime(self):
-        total_runtime = 0
-        for songs in self.songs:
-            total_runtime += songs.get_duration()
+        total_runtime = Duration(0, 0)
+        for song in self.songs:
+            total_runtime += song.get_duration()
         return total_runtime
-
-test_album = Album(artist, title)
-test_album.name
