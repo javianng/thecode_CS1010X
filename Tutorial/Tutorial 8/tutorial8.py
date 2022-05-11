@@ -138,19 +138,23 @@ d = make_monitored(double)
 # Question 4: Make Monitored! Part 2 #
 ######################################
 
-def make_monitored_extended(f):
+def make_monitored_extended(*f):
     counter = 0
-    def mf(*argv):
-        for arg in argv:
-            nonlocal counter
-            if arg == 'how-many-calls?':
-                return counter
-            elif arg == 'reset-count':
-                counter = 0
-            else:
-                counter += 1
-                return f(*argv)
-    return mf
+    for f_1 in f:
+        def mf(*argv):
+            for arg in argv:
+                nonlocal counter
+                if arg == 'how-many-calls?':
+                    return counter
+                elif arg == 'reset-count':
+                    counter = 0
+                else:
+                    counter += 1
+                    return f_1(*argv)
+        return mf
+    counter += 1
+    return 0
+
 
 ### DO NOT MODIFY THIS ###
 def sum_numbers(*numbers):
@@ -161,8 +165,10 @@ def sum_numbers(*numbers):
 
 monitored_sum_numbers = make_monitored_extended(sum_numbers)
 
-print(monitored_sum_numbers(1, 2, 3))
-print(monitored_sum_numbers("how-many-calls?"))
+print(make_monitored_extended())
+# print(monitored_sum_numbers("reset-count"))
+# print(monitored_sum_numbers(1, 2, 3))
+# print(monitored_sum_numbers("how-many-calls?"))
 print(monitored_sum_numbers())
 
 #######################################
