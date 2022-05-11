@@ -168,3 +168,114 @@ def faster_pascal(row, col):
     #     print(i, " : ", table[i])
 
 # print(faster_pascal(9, 5))
+
+##############
+# Question 5 #
+##############
+
+# Recursive Function
+
+def num_of_paths_rec(n, m):
+    if(m == 1 or n == 1):
+        return 1
+    return num_of_paths_rec(m-1, n) + num_of_paths_rec(m, n-1)
+
+# print(num_of_paths_rec(1, 100))
+# print(num_of_paths_rec(3, 3))
+
+# Memo function
+
+table = {}  # table to memoize computed values
+
+def num_of_paths(n, m):
+    
+    if (n, m) in table:
+        return table[(n, m)]
+    
+    if(m == 1 or n == 1):
+        return 1
+    answer = num_of_paths(m-1, n) + num_of_paths(m, n-1)
+    table[(n, m)] = answer
+    return answer
+
+# print(num_of_paths(1, 100))
+# print(num_of_paths(3, 3))
+
+##############
+# Question 6 #
+##############
+
+def num_of_paths(maze):
+    table = []
+    
+    len_row = len(maze) # number of rows
+    len_col = len(maze[0]) # number of cols
+    
+    # Initialize an empty table (dictionary), get number of rows n and number of columns m
+    
+    one_row = len_col * [1] # [1, 1, 1, 1]
+    
+    for counter in range(len_row):
+        table.append(list(one_row))
+    
+    # If maze[0][j] has a bomb, set table[(0, k)] where k >= j to be 0. Since one cell is 
+    # broken along the way, all following cells cannot be reached.
+    
+    for counter in range(len_col):
+        if maze[0][counter] == 0:
+            for counter_2 in range(counter, len_col):
+                table[0][counter_2] = 0
+                
+    # If maze[i][0] has a bomb, set table[(i, 0)] and all cells under it to be 0. The reason 
+    # is same as row.
+    
+    for counter in range(len_row):
+        if maze[counter][0] == 0:
+            for counter_2 in range(counter, len_row):
+                table[counter_2][0] = 0
+    
+    # Main DP procedure - fill in the rest of the table. If maze[i][j] has a bomb, 
+    # set table[(i, j)] = 0. Otherwise, table[(i, j)] = table[(i - 1, j)] + table[(i, j - 1)]
+    
+    for i in range(1, len_row):
+        for j in range(1, len_col):
+            if maze[i][j] == 0:
+                table[i][j] = 0
+            else:
+                table[i][j] = table[i-1][j] + table[i][j-1]
+    
+    # Print Table
+    # for i in range(len(table)):
+    #     print(i, " : ", table[i])
+    
+    return table[len_row-1][len_col-1]
+
+# Do NOT modify
+maze3 = ((1, 0, 1, 1),
+        (1, 0, 1, 1),
+        (1, 0, 1, 1),
+        (1, 0, 1, 1),
+        (1, 0, 1, 0),
+        (1, 0, 0, 1))
+
+maze1 = ((1, 1, 1, 1, 1, 1, 1, 1, 0, 1),
+        (1, 0, 0, 1, 1, 1, 0, 0, 1, 1),
+        (0, 1, 1, 1, 0, 0, 1, 1, 1, 0),
+        (1, 1, 0, 1, 1, 1, 1, 0, 1, 1),
+        (0, 1, 0, 1, 0, 0, 1, 0, 1, 0),
+        (1, 0, 1, 1, 1, 1, 0, 1, 1, 1),
+        (1, 1, 0, 1, 0, 1, 0, 0, 1, 1),
+        (0, 1, 1, 1, 1, 1, 1, 1, 1, 0),
+        (1, 0, 1, 0, 0, 1, 1, 0, 1, 1),
+        (1, 0, 1, 1, 1, 0, 1, 0, 1, 0),
+        (1, 1, 0, 1, 0, 1, 0, 1, 1, 1))
+
+maze2 = ((1, 1, 1, 1, 1, 1, 1, 1, 1),
+        (1, 1, 1, 1, 1, 1, 1, 1, 1),
+        (1, 1, 1, 1, 1, 1, 1, 1, 1),
+        (1, 1, 1, 1, 1, 1, 1, 1, 1),
+        (1, 1, 1, 1, 1, 1, 1, 1, 1),
+        (1, 1, 1, 1, 1, 1, 1, 1, 1),
+        (1, 1, 1, 1, 1, 1, 1, 1, 1))
+
+# print(num_of_paths(maze2))
