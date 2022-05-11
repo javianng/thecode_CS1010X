@@ -1,7 +1,6 @@
 # Dictionary to keep track of memoized data
 from operator import le
 
-
 memoize_table = {}
 
 def memoize(f, name): # name to allow us to reference table
@@ -21,6 +20,7 @@ def memoize(f, name): # name to allow us to reference table
 
 # A
 # Start with writing cc
+
 coins = [50, 20, 10, 5, 1]
 count = 0
 
@@ -35,6 +35,7 @@ def cc(a, d):
         return cc(a-coins[d-1], d) + cc(a, d-1)
 
 # B
+
 coins = [1, 5, 10, 20, 50]
 
 # C
