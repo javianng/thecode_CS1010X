@@ -8,20 +8,18 @@ def collatz_distance(n):
         return 1+ collatz_distance(n/2)
     else:
         return 1+ collatz_distance(3*n+1)
-    
 
 # (b)
 def max_collatz_distance(n):
     maximum=0
-
+    
     for i in range(1,n+1):
         if collatz_distance(i)>maximum:
             maximum=collatz_distance(i)
-
+    
     return maximum
 
 # (c)
-
 memoize_table = {}
 
 # Dynamic programming doesn't work as there is no systematic approach to build the solution 
@@ -45,7 +43,7 @@ def max_collatz_distance(n):
     for i in range(1,n+1):
         if collatz_distance(i)>maximum:
             maximum=collatz_distance(i)
-
+    
     return maximum
 
 collatz_distance_memo = memoize(collatz_distance, "cd")
@@ -93,15 +91,15 @@ def httpget(url):
         raise InternetFail("Internet Fail  " + str(err))
     except URLError as err:
         raise ValueError("Value Error " + str(err))
-    
+
 class InternetFail(Exception):
     def __init__(self, value):
         self.value = value
     def __str__(self):
         return repr(self.value)
 
-URLS = [["", "impossible.txt"], ["http://google.com.cs1010fc", "fail.text"] ["https://coursemology.org", "coursemology.txt"]]
-    
+URLS = [["", "impossible.txt"]] #, ["http://google.com.cs1010fc", "fail.text"] ["https://coursemology.org", "coursemology.txt"]]
+
 def download_URLs(URL_filenames):
     for url in URL_filenames:
         try:
