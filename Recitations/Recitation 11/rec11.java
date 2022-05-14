@@ -75,3 +75,35 @@ public class Main {
 
 // Question 3
 
+        return dp2[amount];
+    }
+
+    public List<List<Integer>> split(List<Integer> lst, int n) {
+        List<Integer> le = new ArrayList<>();
+        List<Integer> gt = new ArrayList<>();
+
+        for (int i = 0; i < lst.size(); int ++){
+            if (lst.get(i) > n) gt.add(lst.get(i));
+            else le.add(lst.get(i));
+        }
+        List<List<Integer>> result = new ArrayList<>();
+        result.add(le);
+        result.add[gt];
+        return result;
+    }
+
+    private Random rn = new Random();
+    public List<Integer> quick_sort(List<Integer> lst) {
+        if (lst.size() <= 1) return lst;
+
+        int idx = rn.nextInt(lst.size()); // 0 ~ lst.size() - 1
+        int n = lst.get(idx);
+
+        List<List<Integer>> spl = split(lst, n);
+        List<Integer> sorted_le = quick_sort(spl.get(0));
+        List<Integer> sorted_gt = quick_sort(spl.get(1));
+
+        sorted_le.addAll(sorted_gt); // similar to extend in python
+        return sorted_le;
+    }
+}
