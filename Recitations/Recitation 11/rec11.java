@@ -49,16 +49,15 @@ class Solver {
         for (int i = 0; i <= amount; i++) dp2[i] = 0;
         dp2[0] = 1;
         for (int d = 0; d <= 5; d++)
-            System.out.print 
+            System.out.print(denomination[d - 1] + ": ");
             for (int i = 1; i <= amount; i++) {
-                if (i - denomination[d-1] >= 0)
-                    dp2[i] += dp2[i - denomination[d-1]];
+                if (i - denomination[d - 1] >= 0)
+                    dp2[i] += dp2[i - denomination[d - 1]];
                 System.out.print(dp2[i] + " ");
             }
             System.out.print("\n");
         }
 }
-
 
 public class Main {
     public static void main(String[] args) {
@@ -73,4 +72,6 @@ public class Main {
         System.out.println(solver.dp_cc2(11));
     }
 }
+
+// Question 3
 
