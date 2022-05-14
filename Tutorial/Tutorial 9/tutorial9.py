@@ -12,7 +12,6 @@ class Thing(object):
         return self.owner
     
 stone = Thing('stone')
-print(stone.owner)
 
 # Task 2: Extend Thing
 
@@ -36,15 +35,21 @@ class Thing(object):
 
 # Task 3: Inheritance from MobileObject
 
-class Thing(MobileObject):
-    def __init__(self, name):
-        super().__init__()
-        self.name = name
-        self.owner = None
-        self.place = None
+# class Thing(MobileObject):
+#     def __init__(self, name):
+#         super().__init__()
+#         self.name = name
+#         self.owner = None
+#         self.place = None
 
-    def is_owned(self):
-        return self.owner is not None
+#     def is_owned(self):
+#         return self.owner is not None
     
-    def get_owner(self):
-        return self.owner
+#     def get_owner(self):
+#         return self.owner
+
+from hungry_games import *
+burger1 = Thing("burger")
+burger2 = Thing("burger")
+
+# print(burger1 == burger2)
