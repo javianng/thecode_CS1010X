@@ -64,19 +64,19 @@
 //         counter = counter + num_array[i]
 //     return counter
 
-public int num_array[] = {3, 4, 6, 1, 0, 9, 8, 6, 2, 5};
+// public int num_array[] = {3, 4, 6, 1, 0, 9, 8, 6, 2, 5};
 
-public int nth_sum_of_num_array(int n) {
+// public int nth_sum_of_num_array(int n) {
     
-    if (n < 0 || n > 10) {
-        return -1;
-    }
-    else {
-        int counter = 0;
+//     if (n < 0 || n > 10) {
+//         return -1;
+//     }
+//     else {
+//         int counter = 0;
 
-        for (int i = 0; i < n; i++) {
-            counter = counter + num_array[i];
-        }
-    return counter;
-    }
-}
+//         for (int i = 0; i < n; i++) {
+//             counter = counter + num_array[i];
+//         }
+//     return counter;
+//     }
+// }
