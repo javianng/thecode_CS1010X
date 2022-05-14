@@ -3,14 +3,13 @@
 def at_least_n(lst, n):
     for i in range(len(lst)):
         if lst[i] < n:
-            print(lst[i])
             lst.remove(lst[i])
     return lst
 
-# lst = list(range(10)) 
-# print(lst)
-# lst2 = at_least_n(lst, 5) 
-# print(lst2)
+lst = list(range(10)) 
+print(lst)
+lst2 = at_least_n(lst, 5) 
+print(lst2)
 
 # The implementation is incorrect as he is amending the list while iterating through it.
 # As he iterates through the list, take lst for exmaple. The "0" removed will result in
@@ -34,6 +33,8 @@ def at_least_n(lst,n):
 
 # No. Moral of the story is not to amend a list while iterating through it.
 
+# Correct Implementation 
+
 def at_least_n(lst, n):
     correct_list = []
     for element in lst:
@@ -41,6 +42,17 @@ def at_least_n(lst, n):
             correct_list.append(element)
     lst.clear()
     lst.extend(correct_list)
+    return lst
+
+# or
+
+def at_least_n(lst, n): 
+    index = 0 
+    while index < len(lst):
+            if lst[index] < n:
+                lst.remove(lst[index])
+            else: 
+                index = index + 1 
     return lst
 
 ### DO NOT MODIFY THIS ###
@@ -90,6 +102,15 @@ def col_sum(matrix):
         processing.clear()
     return result
 
+def col_sum(m):
+    nrow = len(m)
+    ncol = len(m[0])
+    res = [0] * ncol
+    for i in range(nrow):
+        for j in range(ncol):
+            res[j] += m[i][j]
+    return res
+
 # print(col_sum([[1,2],[3,4],[5,6]]))
 
 # Question 6
@@ -102,7 +123,19 @@ def row_sum(matrix):
         result.append(sum(list))
     
     return result
-    
+
+def row_sum(m):
+    nrow = len(m)
+    ncol = len(m[0])
+    res = [0] * nrow
+    for i in range(nrow):
+        for j in range(ncol):
+            res[i] += m[i][j]
+    return res
+
+def row_sum(m):
+    return list(map(sum, m))
+
 # print(row_sum([[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]]))
 
 # Question 7
@@ -124,9 +157,20 @@ def transpose(matrix):
     
     return matrix
 
+def transpose(m):
+    nrow = len(m)
+    ncol = len(m[0])
+    res = []
+    for i in range(ncol):
+        res. append([0]*nrow)
+    for i in range(nrow):
+        for j in range(ncol):
+            res [j][i] = m[i][j]
+    return res
+
 ### DO NOT MODIFY THIS ###
 matrix1 = [[ 1, 2, 3], [4, 5, 6], [7, 8, 9]]
-matrix2 = [[ 1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
+matrix2 = [[ 1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 1  1, 12]]
 matrix3 = [[1, 2, 3]]
 
 # print(transpose(matrix1))
@@ -142,7 +186,7 @@ matrix3 = [[1, 2, 3]]
 
 """Bubble sort (see recitation)"""
 # Bubble sort is a sorting algorithm that compares two adjacent elements and swaps 
-# them until they are not in the intended order.
+# them until they are in the intended order.
 
 """Merge sort (see lecture)"""
 # The list is divided into two. Then each list is sorted individually. Then the two sorted lists are merged by
