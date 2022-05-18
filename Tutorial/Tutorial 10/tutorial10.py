@@ -1,6 +1,7 @@
 # Question 1 
 
 # (a)
+
 def collatz_distance(n):
     if n==1:
         return 0
@@ -12,12 +13,13 @@ def collatz_distance(n):
 # print(collatz_distance(6))
 
 # (b)
-# def max_collatz_distance(n):
-#     maximum = 0
-#     for i in range(1,n+1):
-#         if collatz_distance(i) > maximum:
-#             maximum = collatz_distance(i)
-#     return maximum
+
+def max_collatz_distance(n):
+    maximum = 0
+    for i in range(1,n+1):
+        if collatz_distance(i) > maximum:
+            maximum = collatz_distance(i)
+    return maximum
 
 # print(max_collatz_distance(11))
 
@@ -26,63 +28,6 @@ def collatz_distance(n):
 # Dynamic programming doesn't work as there is no systematic approach to build the solution 
 # from small to big.
 
-# memoize_table = {}
-
-# def memoize(f, name):
-#     if name not in memoize_table:
-#         memoize_table[name] = {}
-#     table = memoize_table[name]
-#     def helper(*args):
-#         if args in table:
-#             return table[args]
-#         else:
-#             result = f(*args)
-#             table[args] = result
-#             return result
-#     return helper
-
-# def collatz_distance_memo(n):
-#     return memoize(collatz_distance, "cd")
-
-# def max_collatz_distance_memo(n):
-#     maximum=0
-#     for i in range(1,n+1):
-#         if collatz_distance(i)>maximum:
-#             maximum=collatz_distance(i)
-#     return maximum
-
-memoize_table = {}
-
-def memoize(f, name):
-    if name not in memoize_table:
-        memoize_table[name] = {}
-    table = memoize_table[name]
-    def helper(*args):
-        if args in table:
-            return table[args]
-        else:
-            result = f(*args)
-            table[args] = result
-            return result
-    return helper
-
-def collatz_distance(n):
-    if n==1:
-        return 0
-    elif n%2==0:
-        return 1+ collatz_distance(n/2)
-    else:
-        return 1+ collatz_distance(3*n+1)
-
-def collatz_distance_memo(n):
-    if n == 1:
-        return 0
-    
-
-def max_collatz_distance_memo(n):
-    # Your code here
-    return
-
 memoize_table = {}
 
 def memoize(f, name):
@@ -99,14 +44,23 @@ def memoize(f, name):
     return helper
 
 def collatz_distance_memo(n):
-    return memoize(collatz_distance, "cd")(n)
+    def helper(n):
+        if n==1:
+            return 0
+        elif n%2==0:
+            return 1+ collatz_distance_memo(n/2)
+        else:
+            return 1+ collatz_distance_memo(3*n+1)
+    return memoize(helper, "collatz_distance")(n)
 
 def max_collatz_distance_memo(n):
-    maximum=0
-    for i in range(1,n+1):
-        if collatz_distance_memo(i)>maximum:
-            maximum=collatz_distance_memo(i)
-    return maximum
+    def helper(n):
+        maximum = 0
+        for i in range(1,n+1):
+            if collatz_distance_memo(i) > maximum:
+                maximum = collatz_distance_memo(i)
+        return maximum
+    return memoize(helper, "max_collatz_distance_memo")(n)
 
 # print(collatz_distance_memo(6))
 # print(max_collatz_distance_memo(6))
