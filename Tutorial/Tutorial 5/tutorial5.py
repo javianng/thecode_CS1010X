@@ -36,8 +36,7 @@ def even_rank(tup):
         result.append(tup[counter])
     
     return tuple(result)
-        
-# print(even_rank((3, 1, 4, 3, 2, 3, 19, 7, -90)))
+
 # print(even_rank((2,)))
 
 # Question 6
