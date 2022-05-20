@@ -103,8 +103,8 @@ def binary_search(x, seq):
 def insert_list(x, lst):
     """ Inserts element x into list lst such that x is less than or equal
         to the next element and returns the resulting list."""
-    y = search(x, lst) # position
-    lst.insert(y, x)
+    position = search(x, lst) 
+    lst.insert(position, x)
     return lst
 
 # print("## Q2a ##")
@@ -122,14 +122,14 @@ def insert_list(x, lst):
 def insert_tup(x, tup):
     """ Inserts element x into tuple tup such that x is less than or equal
         to the next element and returns the resulting tuple."""
-    y = search(x, tup) # position
+    position = search(x, tup)
     new_tup = ()
-    if y == len(tup):
+    if position == len(tup):
         tup += (x,)
         return tup
     else:
         for i in range(0, len(tup)):
-            if i == y:
+            if i == position:
                 new_tup += (x,)
                 new_tup += (tup[i],)
             else:
@@ -164,8 +164,10 @@ output_lst = insert_list(7, lst)
 # print(lst == output_lst)
 #=> Output: True
 #=> Explain the outputs:
-#=>
-#=>
+# tup is not mutable. as such, output_tup is a new tuple and is not the same as tup. 
+# running insert_tup generates a new tup with the new elements. list however is mutable,
+# running insert_lst modifies the existing lst and they are both pointing to the original 
+# list reference. Hence returning True unlike for tuple.
 
 
 ###########
@@ -198,7 +200,7 @@ def sort_list(lst):
 # Task 3b #
 ###########
 
-#=> Time complexity of sort_list:
+#=> Time complexity of sort_list: O(N)
 
 ###########
 # Task 3c #
@@ -206,7 +208,10 @@ def sort_list(lst):
 
 def sort_tup(tup):
     """ Sorts tuple tup in an ascending order."""
-    return accumulate(insert_tup, (), tup)
+    result = ()
+    for i in tup:
+        result = insert_tup(i, result)
+    return result
 
 # print("## Q3c ##")
 # print(sort_tup((9, 6, 2, 4, 5)))
@@ -250,24 +255,26 @@ def insert_animate(block_pos, shelf, high):
     return shelf
 
 # Test cases for insert_animate
-
+    
 # def test_insert_animate():
-#     shelf.clear_window()
-#     s = shelf.init_shelf((2, 6, 1, 4, 8, 3, 9))
-    # print("## Q4a ##")
-    # print(insert_animate(0, s, 0))
-    # => [Block size: 2, Block size: 6, Block size: 1, Block size: 4, Block size: 8, Block size: 3, Block size: 9]
-    # print(insert_animate(1, s, 1))
-    # => [Block size: 2, Block size: 6, Block size: 1, Block size: 4, Block size: 8, Block size: 3, Block size: 9]
-    # print(insert_animate(2, s, 2))
-    # => [Block size: 1, Block size: 2, Block size: 6, Block size: 4, Block size: 8, Block size: 3, Block size: 9]
-    # print(insert_animate(3, s, 3))
-    # => [Block size: 1, Block size: 2, Block size: 4, Block size: 6, Block size: 8, Block size: 3, Block size: 9]
-    # print(insert_animate(6, s, 6))
-    # => [Block size: 1, Block size: 2, Block size: 4, Block size: 6, Block size: 8, Block size: 3, Block size: 9]
+#    shelf.clear_window()
+
+s = shelf.init_shelf((2, 6, 1, 4, 8, 3, 9))
+     
+# print("## Q4a ##")
+print(insert_animate(0, s, 0))
+# => [Block size: 2,Block size: 6, Block size: 1, Block size: 4, Block size: 8, Block size: 3, Block size: 9]
+# print(insert_animate(1, s, 1))
+# => [Block size: 2, Block size: 6, Block size: 1, Block size: 4, Block size: 8, Block size: 3, Block size: 9]
+# print(insert_animate(2, s, 2))
+# => [Block size: 1, Block size: 2, Block size: 6, Block size: 4, Block size: 8, Block size: 3, Block size: 9]
+# print(insert_animate(3, s, 3))
+# => [Block size: 1, Block size: 2, Block size: 4, Block size: 6, Block size: 8, Block size: 3, Block size: 9]
+# print(insert_animate(6, s, 6))
+# => [Block size: 1, Block size: 2, Block size: 4, Block size: 6, Block size: 8, Block size: 3, Block size: 9]
 
 # Uncomment function call to test insert_animate()
-#test_insert_animate()
+test_insert_animate()
 
 ###########
 # Task 4b #
