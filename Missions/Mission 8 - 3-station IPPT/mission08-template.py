@@ -40,21 +40,19 @@ run_table = read_data("run.csv")
 
 ippt_table = make_ippt_table(pushup_table, situp_table, run_table)
 
-print("")
-print("## Q1 ##")
+# print("## Q1 ##")
 # Sit-up score of a 24-year-old who did 10 sit-ups.
-print(access_cell(situp_table, 24, 10))    # 0
+# print(access_cell(situp_table, 24, 10))    # 0
 
 # Push-up score of a 18-year-old who did 30 push-ups.
-print(access_cell(pushup_table, 18, 30))   # 16
+# print(access_cell(pushup_table, 18, 30))   # 16
 
 # Run score of a 30-year old-who ran 12 minutes (720 seconds)
-print(access_cell(run_table, 30, 720))     # 36
+# print(access_cell(run_table, 30, 720))     # 36
 
 # Since our run.csv file does not have data for 725 seconds, we should
 # get None if we try to access that cell.
-print(access_cell(run_table, 30, 725))     # None
-
+# print(access_cell(run_table, 30, 725))     # None
 
 ##########
 # Task 2 #
@@ -89,7 +87,6 @@ def run_score(run_table, age, run):
 # print(run_score(run_table, 30, 500))        # 50
 # print(run_score(run_table, 30, 1300))       # 0
 
-
 ##########
 # Task 3 #
 ##########
@@ -113,7 +110,6 @@ def ippt_award(score):
 # print(ippt_award(75))     # S
 # print(ippt_award(85))     # G
 
-
 ##########
 # Task 4 #
 ##########
@@ -132,10 +128,10 @@ def ippt_results(ippt_table, age, pushup, situp, run):
 # print(ippt_results(ippt_table, 25, 34, 35, 817))      # (61, 'P$')
 # print(ippt_results(ippt_table, 60, 70, 65, 450))      # (100, 'G')
 
-
 ##########
 # Task 5 #
 ##########
+
 def make_training_program(rate_pushup, rate_situp, rate_run):
     def training_program(ippt_table, age, pushup, situp, run, days):
         improved_p = pushup + days // rate_pushup
@@ -179,5 +175,5 @@ tp_bonus = make_tp_bonus(7, 3, 10)
 # sit-up, push-up, and 2.4km run timing. However, the IPPT score and grade
 # should be the same as the sample output.
 
-print(tp_bonus(ippt_table, 25, 20, 30, 800, 30))      # (20, 40, 800, (58, 'P'))
-print(tp_bonus(ippt_table, 25, 20, 30, 800, 2))       # (20, 30, 800, (52, 'P'))
+# print(tp_bonus(ippt_table, 25, 20, 30, 800, 30))      # (20, 40, 800, (58, 'P'))
+# print(tp_bonus(ippt_table, 25, 20, 30, 800, 2))       # (20, 30, 800, (52, 'P'))
