@@ -1,4 +1,4 @@
-5# CS1010S --- Programming Methodology
+# CS1010S --- Programming Methodology
 #
 # Mission 7 Template
 #
@@ -32,11 +32,9 @@ def filter(pred, seq):
 ###############
 
 def make_station(station_code, station_name):
-    '''return (station_code, station_name)'''
     return (station_code, station_name)
 
 def get_station_code(station):
-    '''return station[0]'''
     return station[0]
 
 def get_station_name(station):
@@ -46,9 +44,9 @@ test_station1 = make_station('CC2', 'Bras Basah')
 test_station2 = make_station('CC3', 'Esplanade')
 test_station3 = make_station('CC4', 'Promenade')
 
-##########
-# Task 1 #
-##########
+############
+## Task 1 ##
+############
 
 def make_train(train_code):
     ''' Do NOT modify this function'''
@@ -56,9 +54,9 @@ def make_train(train_code):
 
 test_train = make_train('TRAIN 0-0')
 
-###########
-# Task 1a #
-###########
+#############
+# Task 1a   #
+#############
 
 def get_train_code(train):
     return train[0]
@@ -70,12 +68,11 @@ def get_train_code(train):
 # Expected Output #
 # TRAIN 0-0
 
-###########
-# Task 1b #
-###########
+#############
+# Task 1b   #
+#############
 
 def make_line(name, stations):
-    '''return [name, stations]'''
     return [name, stations]
 
 def get_line_name(line):
@@ -90,8 +87,7 @@ def get_station_by_name(line, station_name):
             return i
         else:
             continue
-    else:
-        return None
+    return None
 
 def get_station_by_code(line, station_code):
     for i in get_line_stations(line):
@@ -99,28 +95,24 @@ def get_station_by_code(line, station_code):
             return i
         else:
             continue
-    else:
-        return None
+    return None
 
 def get_station_position(line, station_code):
-    '''Takes in line and station_code such as 'CC4' '''
     for i in get_line_stations(line):
         if get_station_code(i) == station_code:
             index = get_line_stations(line).index(i)
             return index
         else:
             continue
-    else:
-        return -1
+    return -1
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 1B
 # print("## Task 1b ##")
-test_line = make_line('Circle Line', (test_station1, test_station2, test_station3))
+# test_line = make_line('Circle Line', (test_station1, test_station2, test_station3))
 # print(get_line_name(test_line))
 # print(get_line_stations(test_line))
 # print(get_station_by_name(test_line, 'Bras Basah'))
 # print(get_station_by_code(test_line, 'CC4'))
-# print(get_station_position(test_line, 'CC4'))
 
 # Expected Output #
 # Circle Line
@@ -128,9 +120,9 @@ test_line = make_line('Circle Line', (test_station1, test_station2, test_station
 # ('CC2', 'Bras Basah')
 # ('CC4', 'Promenade')
 
-###########
-# Task 1c #
-###########
+#############
+# Task 1c   #
+#############
 
 def make_train_position(is_moving, from_station, to_station):
     ''' Do NOT modify this function'''
@@ -167,8 +159,8 @@ def get_next_station(train_position):
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 1C
 # print("## Task 1c ##")
-test_train_position1 = make_train_position(False, test_station1, test_station2)
-test_train_position2 = make_train_position(True, test_station3, test_station2)
+# test_train_position1 = make_train_position(False, test_station1, test_station2)
+# test_train_position2 = make_train_position(True, test_station3, test_station2)
 # print(get_is_moving(test_train_position2))
 # print(get_direction(test_line, test_train_position1))
 # print(get_stopped_station(test_train_position1))
@@ -176,15 +168,15 @@ test_train_position2 = make_train_position(True, test_station3, test_station2)
 # print(get_next_station(test_train_position2))
 
 # Expected Output #
-True
-0
-('CC2', 'Bras Basah')
-('CC4', 'Promenade')
-('CC3', 'Esplanade')
+# True
+# 0
+# ('CC2', 'Bras Basah')
+# ('CC4', 'Promenade')
+# ('CC3', 'Esplanade')
 
-###########
-# Task 1d #
-###########
+#############
+# Task 1d   #
+#############
 
 def make_schedule_event(train, train_position, time):
     return (train, train_position, time)
@@ -200,8 +192,8 @@ def get_schedule_time(schedule_event):
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 1D
 # print("## Task 1d ##")
-test_bd_event1 = make_schedule_event(test_train, test_train_position2, datetime.datetime(2016, 1, 1, 9, 27))
-test_bd_event2 = make_schedule_event(test_train, test_train_position1, datetime.datetime(2016, 1, 1, 2, 25))
+# test_bd_event1 = make_schedule_event(test_train, test_train_position2, datetime.datetime(2016, 1, 1, 9, 27))
+# test_bd_event2 = make_schedule_event(test_train, test_train_position1, datetime.datetime(2016, 1, 1, 2, 25))
 # print(get_train(test_bd_event1))
 # print(get_train_position(test_bd_event1))
 # print(get_schedule_time(test_bd_event1))
@@ -212,9 +204,9 @@ test_bd_event2 = make_schedule_event(test_train, test_train_position1, datetime.
 # 2016-01-01 09:27:00
 
 
-##########
-# Task 2 #
-##########
+############
+## Task 2 ##
+############
 
 def read_csv(csvfilename):
     rows = ()
@@ -224,9 +216,9 @@ def read_csv(csvfilename):
             rows += (tuple(row), )
     return rows
 
-###########
-# Task 2a #
-###########
+#############
+# Task 2a   #
+#############
 
 def parse_lines(data_file):
     
@@ -262,8 +254,8 @@ def parse_lines(data_file):
     return lines
 
 # UNCOMMENT THE CODE BELOW WHEN YOU ARE DONE WITH TASK 2A. THIS IS NOT OPTIONAL TESTING!
-LINES = parse_lines('station_info.csv')
-CCL = filter(lambda line: get_line_name(line) == 'Circle Line', LINES)[0]
+# LINES = parse_lines('station_info.csv')
+# CCL = filter(lambda line: get_line_name(line) == 'Circle Line', LINES)[0]
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 2A
 # print("## Task 2a ##")
@@ -272,151 +264,63 @@ CCL = filter(lambda line: get_line_name(line) == 'Circle Line', LINES)[0]
 # Expected Output #
 # (('CC6', 'Stadium'), ('CC7', 'Mountbatten'), ('CC8', 'Dakota'))
 
-###########
-# Task 2b #
-###########
+#############
+# Task 2b   #
+#############
 
 def parse_events_in_line(data_file, line):
     rows = read_csv(data_file)[1:]
-    
     events = ()
-    
-    # Processing data in data_file
-    
     for row in rows:
-        train_code, is_moving, from_stn, to_stn, date, time = row
-        train = make_train(train_code)
-
-        # Processing station_info.csv database
-        
-        for line in LINES:
-            
-            # Accessing stations in the line
-            
-            for station in get_line_stations(line):
-                if get_station_code(station) == from_stn:               # comparing station in data_file with the 
-                                                                        # station in line 
-                    from_station = get_station_by_code(line, from_stn)
-                    to_station = get_station_by_code(line, to_stn)
-                    
-        bool_is_moving = str_to_bool(is_moving)
-        train_position = make_train_position(bool_is_moving, from_station, to_station)
-        
-        datetime = make_time(date, time)
-        
-        event = make_schedule_event(train, train_position, datetime)
-        events += (event,)
-        
+        # Your code here
+        pass
     return events
 
-def make_time(date, time):
-    day, month, year = map(lambda x: int(x), date.split('/'))
-    hour, minute = map(lambda x: int(x), time.split(':'))
-    return datetime.datetime(year, month, day, hour, minute)
-
-def str_to_bool(s):
-    if s == 'True':
-        return True
-    elif s == 'False':
-        return False
-    else:
-        raise ValueError
-
 # UNCOMMENT THE CODE BELOW WHEN YOU ARE DONE WITH TASK 2B. THIS IS NOT OPTIONAL TESTING!
-BD_EVENTS = parse_events_in_line('breakdown_events.csv', CCL)
+# BD_EVENTS = parse_events_in_line('breakdown_events.csv', CCL)
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 2B
 # print("## Task 2b ##")
-# print(BD_EVENTS[2])
+# print(BD_EVENTS[9])
+
 # Expected Output #
 # (('TRAIN 1-11',), (False, ('CC23', 'one-north'), ('CC22', 'Buona Vista')), datetime.datetime(2017, 1, 6, 7, 9))
 
-##########
-# Task 3 #
-##########
+############
+## Task 3 ##
+############
 
-###########
-# Task 3a #
-###########
-
-def get_bd_train(bd_event):
-    return bd_event[0]
-
-def get_bd_train_position(bd_event):
-    return bd_event[1]
-
-def get_bd_datetime(bd_event):
-    return bd_event[2]
-
-def get_line_from_stn(my_stn, lines):
-    for line in lines:
-        for stn in get_line_stations(line):
-            if stn == my_stn:
-                return line
-
-def adjacent_stn(bd_event):
-    
-    train_position = get_bd_train_position(bd_event)
-    
-    # Obtain the two stations where bd occurred
-    
-    from_stn = train_position[1]
-    to_stn = train_position[2]
-    
-    line = get_line_from_stn(from_stn, LINES)
-    
-    # Obtain index position
-    
-    from_index = get_station_position(from_stn, line)
-    to_index = get_station_position(to_stn, line)
-    
-    # Check if stations are side-by-side
-    
-    if abs(from_index - to_index) == 1:
-        return True
-    return False
-
-def filter_time(bd_event):
-    return filter(lambda x: True if x.hour >= 7 and x.hour < 23 or x.hour == 23 and x.minute == 0 else False
-                    , get_bd_datetime(bd_event))
-
-def filter_time(bd_event):
-    my_datetime = get_bd_datetime(bd_event)
-    if my_datetime.hour > 6 and my_datetime.hour < 23:
-        return True
-    if my_datetime.hour == 23 and my_datetime.minute == 0:
-        return True
-    return False
+#############
+# Task 3a   #
+#############
 
 def is_valid_event_in_line(bd_event, line):
-    if adjacent_stn(bd_event) and filter_time(bd_event):
-        return True
-    else:
-        return False
+    '''your code here'''
+    pass
 
 def get_valid_events_in_line(bd_events, line):
     ''' Do NOT modify this function'''
     return filter(lambda ev: is_valid_event_in_line(ev, line), bd_events)
 
-# UNCOMMENT THE CODE BELOW WHEN YOU ARE DONE WITH TASK 3A. THIS IS NOT OPTIONAL TESTING! #
-VALID_BD_EVENTS = get_valid_events_in_line(BD_EVENTS, CCL)
+# UNCOMMENT THE CODE BELOW WHEN YOU ARE DONE WITH TASK 3A. THIS IS NOT OPTIONAL TESTING!
+# VALID_BD_EVENTS = get_valid_events_in_line(BD_EVENTS, CCL)
 
-# UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 3A #
+# UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 3A
 # print("## Task 3a ##")
-print(is_valid_event_in_line(test_bd_event1, CCL))
+# print(is_valid_event_in_line(test_bd_event1, CCL))
 # print(is_valid_event_in_line(test_bd_event2, CCL))
 
 # Expected Output #
 # True
 # False
 
-###########
-# Task 3b #
-###########
+#############
+# Task 3b   #
+#############
 
-# def get_location_id_in_line(bd_event, line):
-#     '''your code here'''
-#     pass
+def get_location_id_in_line(bd_event, line):
+    '''your code here'''
+    pass
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 3B
 # print("## Task 3b ##")
@@ -429,9 +333,9 @@ print(is_valid_event_in_line(test_bd_event1, CCL))
 # 2.5
 # 1
 
-##########
-# Task 4 #
-##########
+############
+## Task 4 ##
+############
 
 # UNCOMMENT the following to read the entire train schedule
 # FULL_SCHEDULE = parse_events_in_line('train_schedule.csv', CCL)    # this will take some time to run
@@ -440,9 +344,9 @@ print(is_valid_event_in_line(test_bd_event1, CCL))
 # Task 4a   #
 #############
 
-# def get_schedules_at_time(train_schedule, time):
-#     '''your code here'''
-#     return
+def get_schedules_at_time(train_schedule, time):
+    '''your code here'''
+    return
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 4A
 # print("## Task 4a ##")
@@ -457,9 +361,9 @@ print(is_valid_event_in_line(test_bd_event1, CCL))
 # Task 4b   #
 #############
 
-# def get_schedules_near_loc_id_in_line(train_schedule, line, loc_id):
-#     '''your code here'''
-#     return
+def get_schedules_near_loc_id_in_line(train_schedule, line, loc_id):
+    '''your code here'''
+    return
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 4B
 # print("## Task 4b ##")
@@ -473,9 +377,9 @@ print(is_valid_event_in_line(test_bd_event1, CCL))
 # Task 4c   #
 #############
 
-# def get_rogue_schedules_in_line(train_schedule, line, time, loc_id):
-#     '''your code here'''
-#     return
+def get_rogue_schedules_in_line(train_schedule, line, time, loc_id):
+    '''your code here'''
+    return
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 4C
 # print("## Task 4c ##")
@@ -488,34 +392,34 @@ print(is_valid_event_in_line(test_bd_event1, CCL))
 # Expected Output #
 # (('TRAIN 1-11',), (True, ('CC24', 'Kent Ridge'), ('CC23', 'one-north')), datetime.datetime(2017, 1, 6, 7, 9))
 
-# ############
-# ## Task 5 ##
-# ############
+############
+## Task 5 ##
+############
 
-# ###############
-# # Scorer ADT  #
-# ###############
+###############
+# Scorer ADT  #
+###############
 
-# def make_scorer():
-#     return {}
+def make_scorer():
+    return {}
 
-# def blame_train(scorer, train_code):
-#     scorer[train_code] = scorer.get(train_code, 0) + 1
-#     return scorer
+def blame_train(scorer, train_code):
+    scorer[train_code] = scorer.get(train_code, 0) + 1
+    return scorer
 
-# def get_blame_scores(scorer):
-#     return tuple(scorer.items())
+def get_blame_scores(scorer):
+    return tuple(scorer.items())
 
 # Use this to keep track of each train's blame score.
-# SCORER = make_scorer()
+SCORER = make_scorer()
 
 #############
 # Task 5a   #
 #############
 
-# def calculate_blame_in_line(full_schedule, valid_bd_events, line, scorer):
-#     '''your code here'''
-#     pass
+def calculate_blame_in_line(full_schedule, valid_bd_events, line, scorer):
+    '''your code here'''
+    pass
 
 # UNCOMMENT THE CODE BELOW WHEN YOU ARE DONE WITH TASK 5A. THIS IS NOT OPTIONAL TESTING!
 # calculate_blame_in_line(FULL_SCHEDULE, VALID_BD_EVENTS, CCL, SCORER)
@@ -531,9 +435,9 @@ print(is_valid_event_in_line(test_bd_event1, CCL))
 # Task 5b   #
 #############
 
-# def find_max_score(scorer):
-#     '''your code here'''
-#     return
+def find_max_score(scorer):
+    '''your code here'''
+    return
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 5B
 # print("## Task 5b ##")
@@ -555,15 +459,15 @@ print(is_valid_event_in_line(test_bd_event1, CCL))
 #     print("%s: %d" % (score[0], score[1]))
 # print("######################################################")
 
-# ''' Please type your answer into the Task 5c textbox on Coursemology '''
+''' Please type your answer into the Task 5c textbox on Coursemology '''
 
-# #############
-# # Task 5d   #
-# #############
+#############
+# Task 5d   #
+#############
 
-# def find_rogue_train(scorer, max_score):
-#     '''your code here'''
-#     return
+def find_rogue_train(scorer, max_score):
+    '''your code here'''
+    return
 
 # UNCOMMENT THE CODE BELOW TO TEST YOUR TASK 5D
 # print("## Task 5d ##")
