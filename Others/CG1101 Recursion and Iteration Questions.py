@@ -91,5 +91,46 @@ def legendre_n(n):
 ################################
 
 def maclaurin(x, n):
-    # code that approximates e^x up to the nth term
-    pass
+    def helper(x, n):
+        if n == 1:
+            return 1
+        
+        else:
+            numerator = x ** (n-1)
+            
+            denominator = 1        
+            for i in range(1, n):
+                denominator = denominator * i
+                
+            value = numerator / denominator
+            
+            return value + helper(x, n-1)
+    return round(helper(x,n),3)
+
+# print(maclaurin(2, 10))
+
+###############################
+# Question 5: Conway Sequence #
+###############################
+
+def conway(n):
+    if n in [1, 2]:
+        return 1
+    else:
+        return conway(conway(n-1)) + conway(n - conway(n-1))
+
+# print(conway(6))
+
+#############################
+# Question 6: Recursive Sum #
+#############################
+
+def recursive_sum(n):
+    if n in [0, 1, 2]:
+        return 1
+    elif n % 2 == 0 and n >= 3:
+        return recursive_sum(n-1) + recursive_sum(n-2) + recursive_sum(n-3)
+    elif n % 2 == 1 and n >= 3:
+        return recursive_sum(n-1) + recursive_sum(n-2)
+    else:
+        print("Error Occurred")

@@ -8,4 +8,4 @@ def python_heading_imput(title):
     print("# " + str(title) + " #")
     print("#" * (len(str_title) + 4))
 
-python_heading_imput("Question 2: Legendre's Conjecture - Part 2!")
+python_heading_imput("Question 6: Recursive Sum")
