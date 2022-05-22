@@ -21,16 +21,26 @@
 #   return mul(x, x)
 
 # (a) What are the types of the input and output of the generic square operation?
-# Answer:
+# Answer: Generic-Ord
 
 # (b) Why would we prefer to define square in the above way, rather than:
 # def square(x):
 #    return apply_generic("square", x)
-# Answer:
+# Answer: When you use the above method, we would have to define the square function
+#         for all the different number package . However, when you use the method below,
+#
+#         def square (x):
+#             return mul(x, x)
+#
+#         it can be used for all types of number package since it calls mul, which has already been 
+#         defined for all previous number package. As such, when there is a different number package  
+#         to be defined, the square function will inherit from the mul function and hence there is 
+#         no need to redefine the square function for the new number pacakge package.
 
 ##########
 # Task 2 #
 ##########
+
 # In the ordinary number package, a generic number operator is indexed by the
 # name of the operator and a tuple of strings. For example, the add operator is
 # indexed by ’add_ord’ and (’ordinary’, ’ordinary’); negation is indexed by
@@ -42,7 +52,10 @@
 # such as create_ordinary, and the operations we can apply on Generic-Num, such
 # as add. How is make_ord invoked, and how is add_ord invoked?
 
-# Answer:
+# Answer: The generic number operator returns the apply_generic function, which uses a map function
+# to retrieve a tag from the generic number and returns a tuple. Thus, they are indexed by the name 
+# of the operator and a tuple of strings. However, the  constructor doesn't call the apply_generic and 
+# doesn't create a tuple out of the string.
 
 ##########
 # Task 3 #
@@ -57,9 +70,10 @@
 # What happens when you use the wrong way to produce 9/10 and 3/10 and then try to add
 # them? Why does this happen?
 
-# Right way:
-# What happens:
-# Why it happens:
+# Right way: second_try = create_rational(create_ordinary(9), create_ordinary(10))
+# What happens: Exception: ('Bad tagged datum -- type_tag ', 9)
+# Why it happens: 9 and 10 are untagged in the first_try. This means that the generic operator will 
+#                 not be able to operate on the numbers, leading to exception.
 
 ##########
 # Task 4 #
@@ -83,23 +97,24 @@
 #         "ordinary"  5
 
 # FILL IN YOUR ANSWERS HERE:
-# r2_7 =
-# r3_1 =
+# r2_7 = create_rational(create_ordinary(2), create_ordinary(7))
+# r3_1 = create_rational(create_ordinary(3), create_ordinary(1))
 
 # csq = square(sub(r2_7, r3_1))
 
-## Sample ASCII box and pointer diagrams (with 2 components) for your convenience
-##            +---+---+---+---+
-##            |       |       |  -->
-##            +---+---+---+---+
-##                |
-##                v
-
-##            +---+---+---+---+
-##            |       |       |
-##            +---+---+---+---+
-##                |       |
-##                v       v
+##
+##            +---+---+---+---+---+---+       +---+---+---+---+
+##  csg  -->  |       |       |       |  -->  |       |       |
+##            +---+---+---+---+---+---+       +---+---+---+---+
+##                |       |                       |       |
+##                |       v                       v       v
+##                |   +---+---+---+---+       "ordinary" "49"
+##                |   |       |       |
+##                |   +---+---+---+---+
+##                |       |       |
+##                v       v       v
+##          "rational" "ordinary" 361
+##
 
 ##########
 # Task 5 #
@@ -109,7 +124,8 @@
 # handled the addition operation. Why is it not
 # possible to name this function "add"?
 
-# Answer:
+# Answer: the function calls the generic function 'add'. if it was named 'add', it 
+# would call itself causing an error.
 
 ##########
 # Task 6 #
@@ -146,12 +162,25 @@ def install_rational_package():
         return make_rat( mul(numer(x), denom(y)),
                          mul(denom(x), numer(y)) )
     
+    ## Amendments ##
+    def negate_rat(x):
+        return make_rat(negate(numer(x)), denom(x))
+    def is_zero_rat(x):
+        return is_zero(numer(x))
+    def is_equal_rat(x, y):
+        return is_equal(div(numer(x), numer(y)), div(denom(x), denom(y)))
+    
     put("make", "rational", make_rat)
     put("add", ("rational", "rational"), add_rat)
     put("sub", ("rational", "rational"), sub_rat)
     put("mul", ("rational", "rational"), mul_rat)
     put("div", ("rational", "rational"), div_rat)
-
+    
+    ## Amendments ##
+    put("negate", ("rational",), negate_rat)
+    put("is_zero", ("rational",), is_zero_rat)
+    put("is_equal", ("rational", "rational"), is_equal_rat)
+    
 install_rational_package()
 
 def create_rational(x, y):
