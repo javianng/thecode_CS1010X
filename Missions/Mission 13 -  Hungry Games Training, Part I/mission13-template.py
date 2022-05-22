@@ -19,30 +19,26 @@ class Weapon(Thing):
     ###########
 
     def __init__(self, name, min_dmg, max_dmg):
-        # your code here
-        pass
-
+        self.name = name
+        self.min_dmg = min_dmg
+        self.max_dmg = max_dmg
 
     ###########
     # Task 1b #
     ###########
 
     def min_damage(self):
-        # your code here
-        return
+        return self.min_dmg
 
     def max_damage(self):
-        # your code here
-        return
+        return self.max_dmg
 
     ###########
     # Task 1c #
     ###########
 
     def damage(self):
-        # your code here
-        return
-
+        return random.randint(self.min_dmg, self.max_dmg)
 
 def test_task1():
     print('=== Task 1 ===')
@@ -71,26 +67,30 @@ class Ammo(Thing):
     # Task 2a #
     ###########
     # constructor here
-
-
+    def __init__(self, ammo_name, accompanying_weapon, quantity_of_ammo):
+        self.ammo_name = ammo_name
+        self.accompanying_weapon = accompanying_weapon
+        self.quantity_of_ammo = quantity_of_ammo
+    
     ###########
     # Task 2b #
     ###########
     # definition of get_quantity here
-
-
+    def get_quantity(self):
+        return self.quantity_of_ammo
+    
     ###########
     # Task 2c #
     ###########
     # definition of weapon_type here
-
-
+    def weapon_type(self):
+        return self.accompanying_weapon.get_name()
+    
     ###########
     # Task 2d #
     ###########
-    # definition of remove_all here
-
-    pass # remove this
+    def remove_all(self):
+        self.quantity_of_ammo = 0
 
 def test_task2():
     print('=== Task 2 ===')
@@ -102,8 +102,7 @@ def test_task2():
     print(arrows.get_quantity())        # 0
 
 # uncomment to test task2
-#test_task2()
-
+# test_task2()
 
 ############
 ##  Task3 ##
@@ -114,8 +113,9 @@ class RangedWeapon(Weapon):
     ###########
     # Task 3a #
     ###########
-    # constructor here
-
+    def __init__(self, name, min_dmg, max_dmg):
+        super().__init__(name, min_dmg, max_dmg)
+        self.shots = 0 
 
     ###########
     # Task 3b #
@@ -135,8 +135,6 @@ class RangedWeapon(Weapon):
     # definition of damage here
 
     pass # remove this
-
-
 
 def test_task3():
     print('=== Task 3a ===')
