@@ -20,28 +20,87 @@ from generic_arith_min import *
 def install_rational_package():
 
     # Copy and paste your Mission 11a solution below here:
+    def make_rat(x, y):
+        return tag(reprat(x, y))
+    def reprat(x, y):
+        return (x, y)
+    def numer(x):
+        return x[0]
+    def denom(x):
+        return x[1]
+    def tag(x):
+        return attach_tag("rational", x)
 
+    # add, sub, mul, div: (RepRat, RepRat) -> Generic-Rat
+    def add_rat(x, y):
+        return make_rat( add(mul(numer(x), denom(y)),
+                             mul(denom(x), numer(y))),
+                         mul(denom(x), denom(y)) )
+    def sub_rat(x, y):
+        return make_rat( sub(mul(numer(x), denom(y)),
+                             mul(denom(x), numer(y))),
+                         mul(denom(x), denom(y)) )
+    def mul_rat(x, y):
+        return make_rat( mul(numer(x), numer(y)),
+                         mul(denom(x), denom(y)) )
+    def div_rat(x, y):
+        return make_rat( mul(numer(x), denom(y)),
+                         mul(denom(x), numer(y)) )
+        
+    ## Amendments ##
+    def negate_rat(x):
+        # RepRat --> Generic-Rat
+        return make_rat(negate(numer(x)), denom(x))
+    def is_zero_rat(x):
+        # RepRat --> Boolean
+        return is_zero(numer(x))
+    def is_eq_rat(x, y):
+        # RepRat --> Boolean
+        return is_equal(div(numer(x), denom(x)), div(numer(y), denom(y)))
+    
+    put("make", "rational", make_rat)
+    put("add", ("rational", "rational"), add_rat)
+    put("sub", ("rational", "rational"), sub_rat)
+    put("mul", ("rational", "rational"), mul_rat)
+    put("div", ("rational", "rational"), div_rat)
+    
+    ## Amendments ##
+    put("negate", ("rational",), negate_rat)
+    put("is_zero", ("rational",), is_zero_rat)
+    put("is_equal", ("rational", "rational"), is_eq_rat)
 
     ###########
     # Task 1a #
     ###########
+    
     def repord_to_reprat(x):
-        return None # Replace this
+        return reprat(create_ordinary(x), create_ordinary(1))
 
     ###########
     # Task 2a #
     ###########
+    
     def RRmethod_to_ORmethod(method):
         return lambda ord, rat: method(repord_to_reprat(ord), rat)
 
-
     def RRmethod_to_ROmethod(method):
-        return None # Replace this
+        return lambda rat, ord: method(rat, repord_to_reprat(ord))
 
-    ###########
+    ###########  
     # Task 3a #
     ###########
-    # Copy your solution here
+    
+    put("add", ("ordinary", "rational"), RRmethod_to_ORmethod(add_rat))
+    put("sub", ("ordinary", "rational"), RRmethod_to_ORmethod(sub_rat))
+    put("mul", ("ordinary", "rational"), RRmethod_to_ORmethod(mul_rat))
+    put("div", ("ordinary", "rational"), RRmethod_to_ORmethod(div_rat))
+    put("is_equal", ("ordinary", "rational"), RRmethod_to_ORmethod(is_eq_rat))
+    
+    put("add", ("rational", "ordinary"), RRmethod_to_ROmethod(add_rat))
+    put("sub", ("rational", "ordinary"), RRmethod_to_ROmethod(sub_rat))
+    put("mul", ("rational", "ordinary"), RRmethod_to_ROmethod(mul_rat))
+    put("div", ("rational", "ordinary"), RRmethod_to_ROmethod(div_rat))
+    put("is_equal", ("rational", "ordinary"), RRmethod_to_ROmethod(is_eq_rat))
 
 install_rational_package()
 
@@ -58,34 +117,97 @@ def create_rational(x,y):
 def install_complex_package():
 
     # Copy and paste your Mission 11b solution below here:
+    def make_com(x, y):
+        return tag(repcom(x, y))
+    def repcom(x, y):
+        return (x, y)
+    def real(x):
+        return x[0]
+    def imag(x):
+        return x[1]
+    def tag(x):
+        return attach_tag("complex", x)
 
+    # add, sub, mul, div: (RepCom, RepCom) -> Generic-Com
+    def add_com(x, y):
+        return make_com( add(real(x), real(y)),
+                         add(imag(x), imag(y)) )
+    def sub_com(x, y):
+        return make_com( sub(real(x), real(y)),
+                         sub(imag(x), imag(y)) )
+    def mul_com(x, y):
+        return make_com( sub(mul(real(x), real(y)),
+                             mul(imag(x), imag(y))),
+                         add(mul(real(x), imag(y)),
+                             mul(real(y), imag(x))))
+    def div_com(x, y):
+        com_conj = content(complex_conjugate(y))
+        x_times_com_conj = content(mul_com(x, com_conj))
+        y_times_com_conj = content(mul_com(y, com_conj))
+        return make_com( div(real(x_times_com_conj), real(y_times_com_conj)),
+                         div(imag(x_times_com_conj), real(y_times_com_conj)))
+    def complex_conjugate(x):
+        return make_com(real(x), negate(imag(x)))
+    
+        # Modification HERE
+    def negate_com(x):
+        # RepCom --> Generic-Com
+        return make_com(negate(real(x)), negate(imag(x)))
+    def is_zero_com(x):
+        # RepCom --> Boolean
+        return is_zero(real(x)) and is_zero(imag(x))
+    def is_eq_com(x, y):
+        # RepCom --> Boolean
+        return is_equal(real(x), real(y)) and is_equal(imag(x), imag(y))
+
+    put("make", "complex", make_com)
+    put("add", ("complex", "complex"), add_com)
+    put("sub", ("complex", "complex"), sub_com)
+    put("mul", ("complex", "complex"), mul_com)
+    put("div", ("complex", "complex"), div_com)
+
+    # Modification HERE
+    put("negate", ("complex",), negate_com)
+    put("is_zero", ("complex",), is_zero_com)
+    put("is_equal", ("complex", "complex"), is_eq_com)
 
     ###########
     # Task 1b #
     ###########
+    
     def repord_to_repcom(x):
-        return None # Replace this
+        return repcom(create_ordinary(x), create_ordinary(0))
 
     ###########
     # Task 2b #
     ###########
-    def CCmethod_to_OCmethod(method):
-        return None # Replace this
 
+    def CCmethod_to_OCmethod(method):
+        return lambda ord, com: method(repord_to_repcom(ord), com)
 
     def CCmethod_to_COmethod(method):
-        return None # Replace this
+        return lambda com, ord: method(com, repord_to_repcom(ord))
 
     ###########
     # Task 3b #
     ###########
-    # Copy your solution here
+    
+    put("add", ("ordinary", "complex"), CCmethod_to_OCmethod(add_com))
+    put("sub", ("ordinary", "complex"), CCmethod_to_OCmethod(sub_com))
+    put("mul", ("ordinary", "complex"), CCmethod_to_OCmethod(mul_com))
+    put("div", ("ordinary", "complex"), CCmethod_to_OCmethod(div_com))
+    put("is_equal", ("ordinary", "complex"), CCmethod_to_OCmethod(is_eq_com))
+    
+    put("add", ("complex", "ordinary"), CCmethod_to_COmethod(add_com))
+    put("sub", ("complex", "ordinary"), CCmethod_to_COmethod(sub_com))
+    put("mul", ("complex", "ordinary"), CCmethod_to_COmethod(mul_com))
+    put("div", ("complex", "ordinary"), CCmethod_to_COmethod(div_com))
+    put("is_equal", ("complex", "ordinary"), CCmethod_to_COmethod(is_eq_com))
 
 install_complex_package()
 
 def create_complex(x,y):
     return get("make","complex")(x,y)
-
 
 #################
 # Do not change #
