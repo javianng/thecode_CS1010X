@@ -198,5 +198,3 @@ install_complex_package()
 
 def create_complex(x,y):
     return get("make", "complex")(x, y)
-
-print(add(create_rational(create_ordinary(9), create_ordinary(10)), create_rational(create_ordinary(3), create_ordinary(10))))

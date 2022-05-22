@@ -148,27 +148,24 @@ def install_rational_package():
 
     # add, sub, mul, div: (RepRat, RepRat) -> Generic-Rat
     def add_rat(x, y):
-        return make_rat( add(mul(numer(x), denom(y)),
-                             mul(denom(x), numer(y))),
-                         mul(denom(x), denom(y)) )
+        return make_rat( add(mul(numer(x), denom(y)), mul(denom(x), numer(y))), mul(denom(x), denom(y)) )
     def sub_rat(x, y):
-        return make_rat( sub(mul(numer(x), denom(y)),
-                             mul(denom(x), numer(y))),
-                         mul(denom(x), denom(y)) )
+        return make_rat( sub(mul(numer(x), denom(y)), mul(denom(x), numer(y))), mul(denom(x), denom(y)) )
     def mul_rat(x, y):
-        return make_rat( mul(numer(x), numer(y)),
-                         mul(denom(x), denom(y)) )
+        return make_rat( mul(numer(x), numer(y)), mul(denom(x), denom(y)) )
     def div_rat(x, y):
-        return make_rat( mul(numer(x), denom(y)),
-                         mul(denom(x), numer(y)) )
+        return make_rat( mul(numer(x), denom(y)), mul(denom(x), numer(y)) )
     
     ## Amendments ##
     def negate_rat(x):
+        # RepRat --> Generic-Rat
         return make_rat(negate(numer(x)), denom(x))
     def is_zero_rat(x):
+        # RepRat --> Boolean
         return is_zero(numer(x))
-    def is_equal_rat(x, y):
-        return is_equal(div(numer(x), numer(y)), div(denom(x), denom(y)))
+    def is_eq_rat(x, y):
+        # RepRat --> Boolean
+        return is_equal(div(numer(x), denom(x)), div(numer(y), denom(y)))
     
     put("make", "rational", make_rat)
     put("add", ("rational", "rational"), add_rat)
@@ -179,7 +176,7 @@ def install_rational_package():
     ## Amendments ##
     put("negate", ("rational",), negate_rat)
     put("is_zero", ("rational",), is_zero_rat)
-    put("is_equal", ("rational", "rational"), is_equal_rat)
+    put("is_equal", ("rational", "rational"), is_eq_rat)
     
 install_rational_package()
 
@@ -187,9 +184,9 @@ def create_rational(x, y):
     return get("make", "rational")(x, y)
 
 # Change the values for the test variables below
-r1_2 = None
-r2_4 = None
-r1_8 = None
+r1_2 = create_rational(create_ordinary(1), create_ordinary(2))
+r2_4 = create_rational(create_ordinary(2), create_ordinary(4))
+r1_8 = create_rational(create_ordinary(1), create_ordinary(8))
 
 #################
 # Do not change #
@@ -199,4 +196,5 @@ def gradeThis():
         print("Well done!")
     else:
         print("Please check your solution.")
+
 gradeThis()
