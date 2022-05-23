@@ -9,124 +9,182 @@
 from hungry_games import *
 import random
 
-
-
 #################################################################################
 #                                                                               #
-# PASTE YOUR MISSION 13 CODE HERE                                               #
+# MISSION 13                                                                    #
 #                                                                               #
 #################################################################################
 
+class Weapon(Thing):
+    def __init__(self, name, min_dmg, max_dmg):
+        super().__init__(name)
+        self.min_dmg = min_dmg
+        self.max_dmg = max_dmg
 
+    def min_damage(self):
+        return self.min_dmg
 
+    def max_damage(self):
+        return self.max_dmg
 
+    def damage(self):
+        return random.randint(self.min_dmg, self.max_dmg)
 
+class Ammo(Thing):
+    def __init__(self, name, accompanying_weapon, quantity_of_ammo):
+        super().__init__(name)
+        self.accompanying_weapon = accompanying_weapon
+        self.quantity_of_ammo = quantity_of_ammo
+        
+    def get_quantity(self):
+        return self.quantity_of_ammo
+    
+    def weapon_type(self):
+        return self.accompanying_weapon.get_name()
+    
+    def remove_all(self):
+        self.quantity_of_ammo = 0
 
+class RangedWeapon(Weapon):
+    def __init__(self, name, min_dmg, max_dmg):
+        super().__init__(name, min_dmg, max_dmg)
+        self.shots = 0 
+        
+    def shots_left(self):
+        return self.shots
+    
+    def load(self, ammo):
+        if self.get_name() == ammo.weapon_type():
+            self.shots += ammo.get_quantity()
+            ammo.remove_all()
+        
+    def damage(self):
+        if self.shots_left() == 0:
+            return 0
+        else:
+            self.shots -= 1
+            return super().damage()
 
+class Food(Thing):
+    def __init__(self, name, food_value):
+        super().__init__(name)
+        self.food_value = food_value
+    
+    def get_food_value(self):
+        return self.food_value
 
+class Medicine(Food):
+    def __init__(self, name, food_value, medicine_value):
+        super().__init__(name, food_value)
+        self.medicine_value = medicine_value
+    
+    def get_medicine_value(self):
+        return self.medicine_value
+
+class Animal(LivingThing):
+    def __init__(self, name, health, food_value, threshold = random.randint(0,4)):
+        super().__init__(name, health, threshold)
+        self.food_value = food_value
+    
+    def get_food_value(self):
+        return self.food_value
+        
+    def go_to_heaven(self):
+        food = Food(self.get_name() + ' meat', self.food_value)
+        place = self.get_place()
+        place.add_object(food)
+        super().go_to_heaven()
+
+#################################################################################
 
 #################################################################################
 #                                                                               #
 # MISSION 14                                                                    #
-# TESTING CODE IS BELOW ALL THE TASKS                                           #
 #                                                                               #
 #################################################################################
-
 
 #############
 ##  Task 1 ##
 #############
 
 class Tribute(Person):
-
-
+    
     ############
     #  Task 1a #
     ############
     def __init__(self, name, health):
         # Tributes will not move by themselves, so set threshold to -1
         super().__init__(name, health, -1)
-        # add hunger property
-
-
-
-
+        self.hunger = 0
+        
     ############
     #  Task 1b #
     ############
-    # definition of get_hunger here
-
-
-
-
+    def get_hunger(self):
+        return self.hunger
+    
     ############
     #  Task 1c #
     ############
-    # definition of add_hunger here
-
-
-
-
+    def add_hunger(self, value):
+        self.hunger += value
+        if self.get_hunger() >= 100:
+            self.go_to_heaven()
+            
     ############
     #  Task 1d #
     ############
-    # definition of reduce_hunger here
-
-
-
-
+    def reduce_hunger(self, value):
+        self.hunger -= value
+        if self.get_hunger() < 0:
+            self.hunger = 0
+            
     #############
     ##  Task 2 ##
     #############
-    # definition of eat here
-
-
-
-
+    def eat(self, food):
+        if food in super().get_inventory():
+            self.reduce_hunger(food.get_food_value())
+            if isinstance(food, Medicine):
+                self.health += food.get_medicine_value()
+                if self.health() > 100:
+                    self.health = 100
+            super().remove_item(food)
+        
     ############
     #  Task 3a #
     ############
-    # definition of get_weapons here
-
-
-
+    def get_weapons(self):
+        return tuple(x for x in super().get_inventory() if isinstance(x, Weapon))
 
     ############
     #  Task 3b #
     ############
-    # definition of get_food here
-
-
-
+    def get_food(self):
+        return tuple(x for x in super().get_inventory() if isinstance(x, Food))
 
     ############
     #  Task 3c #
     ############
-    # definition of get_medicine here
-
-
-
-
+    def get_medicine(self):
+        return tuple(x for x in super().get_inventory() if isinstance(x, Medicine))
+    
     #############
     ##  Task 4 ##
     #############
-    # definition of attack here
-
-
-
+    
+    def attack(self, living_thing, weapon):
+        if super().get_place() == living_thing.get_place() and weapon in self.get_weapons():
+            living_thing.reduce_health(weapon.damage())
 
 #############
 ##  Task 5 ##
 #############
 # You can either draw it here or attach a image file when you submit.
 
-
-
-
 ################
 # Testing Code #
 ################
-
 
 def test_task1():
     print("===== Task 1b ======")
@@ -152,7 +210,7 @@ def test_task1():
     print(cc.get_hunger())          # 0
 
 # Uncomment to test task 1
-#test_task1()
+# test_task1()
 
 def test_task2():
     print("===== Task 2 ======")
@@ -188,7 +246,7 @@ def test_task2():
     print(named_col(Base.get_objects()))    # ['Chee Chin']
 
 # Uncomment to test task 2
-#test_task2()
+# test_task2()
 
 def test_task3():
     print("===== Task 3 ======")
@@ -216,7 +274,7 @@ def test_task3():
     print(named_col(cc.get_medicine()))    # ('aloe vera',)
 
 # Uncomment to test task 3
-#test_task3()
+# test_task3()
 
 def test_task4():
     print("===== Task 4 ======")
@@ -242,4 +300,4 @@ def test_task4():
     print(named_col(Base.get_objects()))    # ['Chee Chin', 'bear meat']
 
 # Uncomment to test task 4
-#test_task4()
+# test_task4()
