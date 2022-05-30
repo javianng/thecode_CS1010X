@@ -14,13 +14,19 @@ from lazy_susan import *
 
 def solve_trivial_2(table):
     """ Write your code here """
-    pass
+    solution = []
+    tuple_table = get_table_state(table)
+    for i in tuple_table:
+        if i == 0:
+            solution.append(1)
+        else:
+            solution.append(0)
+    return flip_coins(table , tuple_table)
 
 # test:
 # t2_1 = create_table(2)
 # solve_trivial_2(t2_1)
 # print(check_solved(t2_1))
-
 
 ########################################################
 ## VISUALIZATION ALTERNATIVE
@@ -40,23 +46,24 @@ def solve_trivial_2(table):
 
 ########################################################
 
-
-
-
-
 ##########
 # Task 2 #
 ##########
 
 def solve_trivial_4(table):
-    """ Write your code here """
-    pass
+    solution = []
+    tuple_table = get_table_state(table)
+    for i in tuple_table:
+        if i == 0:
+            solution.append(1)
+        else:
+            solution.append(0)
+    return flip_coins(table , tuple_table)
 
 # test:
 # t4_2 = create_table(4)
 # solve_trivial_4(t4_2)
 # print(check_solved(t4_2))
-
 
 ########################################################
 ## VISUALIZATION ALTERNATIVE
@@ -76,23 +83,19 @@ def solve_trivial_4(table):
 
 ########################################################
 
-
-
-
-
 ##########
 # Task 3 #
 ##########
 
 def solve_2(table):
-    """ Write your code here """
-    pass
+    while check_solved(table) == False:
+        flip_coins(table, [0,1])
+    return table
 
 # test:
 # t2_3 = create_table(2)
 # solve_2(t2_3)
 # print(check_solved(t2_3))
-
 
 ########################################################
 ## VISUALIZATION ALTERNATIVE
@@ -112,23 +115,23 @@ def solve_2(table):
 
 ########################################################
 
-
-
-
-
 ##########
 # Task 4 #
 ##########
 
 def solve_4(table):
-    """ Write your code here """
-    pass
+    A = (1, 0, 1, 0)
+    B = (1, 1, 0, 0)
+    C = (1, 0, 0, 0)
+    algorithm = (A, B, A, C, A, B, A)
+    for i in algorithm:
+        if check_solved(table) == False:
+            flip_coins(table, i)
 
 # test:
 # t4_4 = create_table(4)
 # solve_4(t4_4)
 # print(check_solved(t4_4))
-
 
 ########################################################
 ## VISUALIZATION ALTERNATIVE
@@ -148,17 +151,47 @@ def solve_4(table):
 
 ########################################################
 
-
-
-
-
 ##########
 # Task 5 #
 ##########
 
 def solve(table):
-    """ Write your code here """
-    pass
+    x = get_table_size(table)
+    y = get_table_size(table)
+    power = 0
+
+    while y > 1:
+        y /= 2
+        power += 1
+            
+    def creator(x):
+        moves = ((1, 1), (1, 0))
+        for i in range(power - 1):
+            new_moves = ()
+            for j in range(len(moves)):
+                new_moves += (2 * moves[j],)
+            for k in range(len(moves)):
+                new_moves += (moves[k] + len(moves) * (0,),)
+            moves = new_moves
+        return moves
+        
+    turns = creator(x)
+
+    def pattern(x):
+        algorithm = ()
+        if x == 1:
+            algorithm += (x,)
+        else:
+            algorithm += pattern(x-1)
+            algorithm += (x,)
+            algorithm += pattern(x-1)
+        return algorithm
+
+    real_algorithm = pattern(x-1)
+
+    for i in real_algorithm:
+        if check_solved(table) == False:
+            flip_coins(table, turns[i])
 
 # test:
 # t4_5 = create_table(4)
