@@ -46,7 +46,7 @@ class XX_AI(Tribute):
         weapons_carried = list(self.get_weapons()) 
         weapons_carried.sort(key=lambda x: x.max_damage(), reverse=True) # sorting weapons in inventory by max damage
         
-        # WEAPON SELECTION
+        # CHOOSING WEAPON
         
         if len(weapons_carried) == 0: # if no weapons in inventory:
             if len(weapons_around) > 0:
@@ -60,22 +60,23 @@ class XX_AI(Tribute):
             
             """
             if top weapon is RangedWeapon:
-            if ranged weapon has ammo, break the loop, move on. else:
-            if have ammo in inventory, load weapon with ammo from inventory
-            if no ammo in inventory, search in area. if area has, take and load
-            else, increment chosen_index: select next most powerful weapon, repeat loop
-            if top weapon is not ranged, break loop, move on
+                if ranged weapon has ammo, break
+                elif have ammo in inventory, load weapon with ammo from inventory
+                elif no ammo in inventory, search in area. if area have, take and load
+            else select next most powerful weapon, repeat loop
+            
+            if top weapon is not RangedWeapon, break
             """
             
             while True:
                 if isinstance(chosen_weapon, RangedWeapon):
-                    if chosen_weapon.shots_left() == 0: # if no ammo                      
+                    if chosen_weapon.shots_left() == 0: # if empty                      
                         for i in self.get_inventory():
                             if isinstance(i, Ammo) and i.weapon_type() == chosen_weapon.get_name():
-                                return ("LOAD", chosen_weapon, i) # if ammo type matches weapon, load weapon
+                                return ("LOAD", chosen_weapon, i) # try to load weapon
                         for i in objects:
                             if isinstance(i, Ammo) and i.weapon_type() == chosen_weapon.get_name():
-                                return ("TAKE", i) # if ammo type matches weapon, take it from area
+                                return ("TAKE", i) # find ammo around location and take
                         chosen_index += 1 # if no ammo in inventory nor area:
                         if chosen_index == len(weapons_carried):
                             return move() # if no ammo for all weapons in inventory, search in another area
@@ -86,7 +87,7 @@ class XX_AI(Tribute):
                 else:
                     break # if top weapon is not ranged: break
                 
-        # MISCELLANEOUS
+        # ATTACKING AND EATING
         
         for i in objects:
             if self.get_hunger() >= 80: # if hunger >= 80:
@@ -205,4 +206,4 @@ def config():
 
 # Replace XX_AI with the class name of your AI
 # Replace gui=True with gui=False if you do not wish to see the GUI
-#simulation.optional_task(XX_AI("XX AI", 100), config, gui=False)
+simulation.optional_task(XX_AI("XX AI", 100), config, gui=True)
