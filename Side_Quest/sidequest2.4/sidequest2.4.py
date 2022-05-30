@@ -43,14 +43,12 @@
 # iii. n^n + n^2 + 1
 # iv. n^2
 
-
 ##########
 # Task 2 #
 ##########
 
 # Time complexity: O(n)
 # Space complexity: O(n)
-
 
 ##########
 # Task 3 #
@@ -62,9 +60,22 @@
 # Space complexity of bar: O(n)
 # Space complexity of foo: O(n^2)
 
-def improved_foo(params):
-    # Fill in code here
-    return
+def bar(n):
+    if n == 0:
+        return 0
+    else :
+        return n + bar(n - 1)
 
-# Improved time complexity:
-# Improved space complexity:
+def foo(n):
+    if n == 0:
+        return 0
+    else :
+        return bar(n) + foo(n - 1)
+
+def improved_foo(params):
+    return int((params**3)/6 + (params**2)/2 + params/3)
+
+# print(foo(11))
+
+# Improved time complexity: O(1)
+# Improved space complexity: O(1)
