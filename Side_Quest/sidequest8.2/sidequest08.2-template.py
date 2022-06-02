@@ -26,39 +26,50 @@ possible_birthdays = (('May', '15'),
 #############
 
 def unique_day(day, possible_birthdays):
-    """Your solution here"""
-    return True
+    count = 0
+    for date in possible_birthdays:
+        if date[1] == day:
+            count += 1
+    return count == 1
 
-print("\n## Task 1a ##")
-print(unique_day("16", possible_birthdays)) # False
-print(unique_day("17", possible_birthdays)) # False
-print(unique_day("18", possible_birthdays)) # True
-print(unique_day("19", possible_birthdays)) # True
+# print("\n## Task 1a ##")
+# print(unique_day("16", possible_birthdays)) # False
+# print(unique_day("17", possible_birthdays)) # False
+# print(unique_day("18", possible_birthdays)) # True
+# print(unique_day("19", possible_birthdays)) # True
 
 #############
 # Task 1(b) #
 #############
 
 def unique_month(month, possible_birthdays):
-    """Your solution here"""
+    count = 0
+    for date in possible_birthdays:
+        if date[0] == month:
+            count += 1
+    return count == 1
 
-print("\n## Task 1b ##")
-print(unique_month('May', possible_birthdays)) # False
-print(unique_month('June', possible_birthdays)) # False
-print(unique_month('March', (('August', '1'), ('March', '2'), ('March', '3')))) # False
-print(unique_month('August', (('August', '1'), ('March', '2'), ('March', '3')))) # True
+# print("\n## Task 1b ##")
+# print(unique_month('May', possible_birthdays)) # False
+# print(unique_month('June', possible_birthdays)) # False
+# print(unique_month('March', (('August', '1'), ('March', '2'), ('March', '3')))) # False
+# print(unique_month('August', (('August', '1'), ('March', '2'), ('March', '3')))) # True
 
 #############
 # Task 1(c) #
 #############
 
 def contains_unique_day(month, possible_birthdays):
-    """Your solution here"""
+    filter_by_month = tuple(filter(lambda x: x[0] == month, possible_birthdays))
+    for date in filter_by_month:
+        if unique_day(date[1], possible_birthdays):
+            return True
+    return False
 
-print("\n## Task 1c ##")
-print(contains_unique_day("May", possible_birthdays)) # True
-print(contains_unique_day("June", possible_birthdays)) # True
-print(contains_unique_day("July", possible_birthdays)) # False
+# print("\n## Task 1c ##")
+# print(contains_unique_day("May", possible_birthdays)) # True
+# print(contains_unique_day("June", possible_birthdays)) # True
+# print(contains_unique_day("July", possible_birthdays)) # False
 
 #############
 # Task 2(a) #
@@ -68,11 +79,13 @@ print(contains_unique_day("July", possible_birthdays)) # False
 # I don't know Cheryl's birthday, but I know that Bernard does not know too.
 
 def statement1(birthday, possible_birthdays):
-    """Your solution here"""
-
-print("\n## Task 2a ##")
-print(statement1(('May', '19'), possible_birthdays)) # False
-print(statement1(('August', '14'), possible_birthdays)) # True
+    if unique_month(birthday[0], possible_birthdays) == False and contains_unique_day(birthday[0], possible_birthdays) == False:
+        return True
+    return False
+    
+# print("\n## Task 2a ##")
+# print(statement1(('May', '19'), possible_birthdays)) # False
+# print(statement1(('August', '14'), possible_birthdays)) # True
 
 #############
 # Task 2(b) #
@@ -82,13 +95,15 @@ print(statement1(('August', '14'), possible_birthdays)) # True
 # At first I don't know when Cheryl's birthday is, but I know now.
 
 def statement2(birthday, possible_birthdays):
-    """Your solution here"""
+    if unique_day(birthday[1], possible_birthdays) == True:
+        return True
+    return False
 
-print("\n## Task 2b ##")
-print(statement2(('May', '19'), possible_birthdays)) # True
-print(statement2(('August', '14'), possible_birthdays)) # False
-print(statement2(('August', '17'), possible_birthdays)) # False
-print(statement2(('July', '16'), possible_birthdays)) # False
+# print("\n## Task 2b ##")
+# print(statement2(('May', '19'), possible_birthdays)) # True
+# print(statement2(('August', '14'), possible_birthdays)) # False
+# print(statement2(('August', '17'), possible_birthdays)) # False
+# print(statement2(('July', '16'), possible_birthdays)) # False
 
 #############
 # Task 2(c) #
@@ -98,11 +113,13 @@ print(statement2(('July', '16'), possible_birthdays)) # False
 # Then I also know when Cheryl's birthday is.
 
 def statement3(birthday, possible_birthdays):
-    """Your solution here"""
+    if unique_month(birthday[0], possible_birthdays) == True:
+        return True
+    return False
 
-print("\n## Task 2c ##")
-print(statement3(('May', '19'), possible_birthdays)) # False
-print(statement3(('August', '14'), (('August', '14'),))) # True
+# print("\n## Task 2c ##")
+# print(statement3(('May', '19'), possible_birthdays)) # False
+# print(statement3(('August', '14'), (('August', '14'),))) # True
 
 ##########
 # Task 3 #
@@ -113,7 +130,9 @@ print(statement3(('August', '14'), (('August', '14'),))) # True
 # Finally, using statement 3, we can filter out the remaining wrong birthdays
 
 def get_birthday(possible_birthdays):
-    """Your solution here"""
+    statement1_set = tuple(filter(lambda x: statement1(x, possible_birthdays), possible_birthdays))
+    statement2_set = tuple(filter(lambda x: statement2(x, statement1_set), statement1_set))
+    return tuple(filter(lambda x: statement3(x, statement2_set), statement2_set))
 
-print("\n## Task 3 ##")
-print(get_birthday(possible_birthdays)) # (('July', '16'),)
+# print("\n## Task 3 ##")
+# print(get_birthday(possible_birthdays)) # (('July', '16'),)
