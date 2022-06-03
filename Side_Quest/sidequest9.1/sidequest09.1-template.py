@@ -132,26 +132,42 @@ from math import *
 
 def merge_sort(lst, k, field):
     
-    x = len(lst)
-    
+    len_list = len(lst) 
     split_list = []
     
     low = 0
-    
-    high = ceil(x / k)
+    high = ceil(len_list / k)
     
     if len(lst) < 2:
         return lst
+    
     for i in range(k):
         split_list += [merge_sort(lst[low:high], k, field)]
-        low += ceil(x / k)
-        high += ceil(x / k)
+        low += ceil(len_list / k)
+        high += ceil(len_list / k)
     return merge(split_list, field)
 
 # For your own debugging
 # modules = read_json('modules_small.txt')
 # for module in merge_sort(modules, 2, module_code):
 #    print(module)
+
+abc = [["CS1010S", "PROGRAMMING METHODOLOGY", "LEONG WING LUP, BEN"], 
+       ["CS3241", "COMPUTER GRAPHICS", "CHENG HOLUN"], 
+       ["CS4243", "COMPUTER VISION AND PATTERN RECOGNITION", "NG TECK KHIM"], 
+       ["CS4345", "GENERAL PURPOSE COMPUTATION ON GPU", "LOW KOK LIM"], 
+       ["CS3235", "COMPUTER SECURITY", "NORMAN HUGH ANDERSON"], 
+       ["BT1101", "INTRODUCTION TO BUSINESS ANALYTICS", "KIM SEUNG HYUN"], 
+       ["MA1101R", "LINEAR ALGEBRA I", "NG KAH LOON"], 
+       ["CS3230", "DESIGN AND ANALYSIS OF ALGORITHMS", "RAHUL JAIN"], 
+       ["MA1100", "FUNDAMENTAL CONCEPTS OF MATHEMATICS", "VICTOR TAN"], 
+       ["ST2334", "PROBABILITY AND STATISTICS", "JASRA, AJAY"], 
+       ["CS3216", "SOFTWARE DEVELOPMENT ON EVOLVING PLATFORMS", "TAN KENG YAN, COLIN"], 
+       ["CS3244", "MACHINE LEARNING", "TAN CHEW LIM"], 
+       ["CS5321", "NETWORK SECURITY AND MANAGEMENT", "CHANG EE-CHIEN"], 
+       ["CS2010", "DATA STRUCTURES & ALGORITHMS II", "STEVEN HALIM"]]
+
+merge_sort(abc, 5, module_name)
 
 ########### DO NOT REMOVE THE TEST BELOW ###########
 
