@@ -17,13 +17,10 @@ def accumulate(fn, initial, seq):
     if not seq:
         return initial
     else:
-        return fn(seq[0],
-                  accumulate(fn, initial, seq[1:]))
+        return fn(seq[0], accumulate(fn, initial, seq[1:]))
 
 def flatten(mat):
     return [num for row in mat for num in row]
-
-
 
 ###########
 # Task 1  #
@@ -38,16 +35,12 @@ def has_zero(mat):
 def add_two(mat):
     "Your answer here"
 
-
-
 ###########
 # Task 2  #
 ###########
 
 def game_status(mat):
     "Your answer here"
-
-
 
 ###########
 # Task 3a #
@@ -56,8 +49,6 @@ def game_status(mat):
 def transpose(mat):
     "Your answer here"
 
-
-
 ###########
 # Task 3b #
 ###########
@@ -65,16 +56,12 @@ def transpose(mat):
 def reverse(mat):
     "Your answer here"
 
-
-
 ############
 # Task 3ci #
 ############
 
 def merge_left(mat):
     "Your answer here"
-
-
 
 #############
 # Task 3cii #
@@ -88,7 +75,6 @@ def merge_up(mat):
 
 def merge_down(mat):
     "Your answer here"
-
 
 ###########
 # Task 3d #
@@ -134,11 +120,9 @@ def text_play():
 # UNCOMMENT THE FOLLOWING LINE TO TEST YOUR GAME
 #text_play()
 
-
 # How would you test that the winning condition works?
 # Your answer:
 #
-
 
 ##########
 # Task 4 #
@@ -184,9 +168,6 @@ game_logic = {
 
 # UNCOMMENT THE FOLLOWING LINE TO START THE GAME (WITHOUT UNDO)
 #gamegrid = GameGrid(game_logic)
-
-
-
 
 #################
 # Optional Task #
@@ -256,7 +237,6 @@ def get_records(state):
 
 def undo(state):
     "Your answer here"
-
 
 # UNCOMMENT THE FOLLOWING LINES TO START THE GAME (WITH UNDO)
 ##game_logic = {
