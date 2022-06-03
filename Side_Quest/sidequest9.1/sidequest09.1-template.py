@@ -60,29 +60,58 @@ def merge_lists(all_lst):
         return True
     
     while checker():
+        
         min_list = []
+        
         for i in range(len(all_lst)):
-            min_list.append(all_lst[i][0])
+            min_list.append(all_lst[i][0]) # append first element of each list
+            # print("minlist: " + str(min_list))
+            
         for i in range(len(min_list)):
             if min_list[i] == min(min_list):
-                x = i
-        final_list.append(min(min_list))
-        del all_lst[x][0]
+                x = i # index of smallest element
+        final_list.append(min(min_list)) # append smallest element to the final list
+        # print("finallist: " + str(final_list))
+        del all_lst[x][0] # remove the smallest element
         
     return final_list
 
 all_lst = [[2, 7, 10], [0, 4, 6], [3, 11]]
-print("## Q1a ##")
-print(merge_lists(all_lst)) # [0, 2, 3, 4, 6, 7, 10, 11]
+# print("## Q1a ##")
+# print(merge_lists(all_lst)) # [0, 2, 3, 4, 6, 7, 10, 11]
 
 ###########
 # Task 1b #
 ###########
 
 def merge(lists, field):
-    # Your code here
-    return []
-
+    
+    final_list = []
+    
+    def checker(x):
+        while [] in x:
+            x.remove([])
+        if len(x) == 0:
+            return False
+        return True
+    
+    while checker(lists):
+        
+        minimum = lists[0][0]
+        number = 0
+        
+        for i in lists:
+            # print("(i[0]): " + str(field(i[0])))
+            # print("minimum: " + str(field(minimum)))
+            if field(i[0]) < field(minimum): # comparing the first element of each list based on the criteria
+                minimum = i[0]
+                number = lists.index(i)       
+                # print("minimum: " + str(field(minimum)))           
+                # print("number: " + str(number))
+        final_list.append(minimum)
+        # print("final_list: " + str(final_list))
+        lists[number].remove(minimum)
+    return final_list
 
 list_of_lists = [[["CS1010S", "PROGRAMMING METHODOLOGY", "LEONG WING LUP, BEN"],
                   ["CS3235", "COMPUTER SECURITY", "NORMAN HUGH ANDERSON"]],
@@ -99,21 +128,31 @@ list_of_lists = [[["CS1010S", "PROGRAMMING METHODOLOGY", "LEONG WING LUP, BEN"],
 # Task 2 #
 ##########
 
-def merge_sort(lst, k, field):
-    # Your code here
-    return []
+from math import *
 
+def merge_sort(lst, k, field):
+    
+    x = len(lst)
+    
+    split_list = []
+    
+    low = 0
+    
+    high = ceil(x / k)
+    
+    if len(lst) < 2:
+        return lst
+    for i in range(k):
+        split_list += [merge_sort(lst[low:high], k, field)]
+        low += ceil(x / k)
+        high += ceil(x / k)
+    return merge(split_list, field)
 
 # For your own debugging
 # modules = read_json('modules_small.txt')
 # for module in merge_sort(modules, 2, module_code):
 #    print(module)
 
-
-########### DO NOT REMOVE THE TEST BELOW ###########
-########### DO NOT REMOVE THE TEST BELOW ###########
-########### DO NOT REMOVE THE TEST BELOW ###########
-########### DO NOT REMOVE THE TEST BELOW ###########
 ########### DO NOT REMOVE THE TEST BELOW ###########
 
 def print_list_to_str(list):
