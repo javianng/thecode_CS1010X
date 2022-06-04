@@ -7,6 +7,7 @@
 # code easily while grading your problem set.
 
 from random import *
+from re import X
 from puzzle import GameGrid
 
 ###########
@@ -27,54 +28,312 @@ def flatten(mat):
 ###########
 
 def new_game_matrix(n):
-    "Your answer here"
+    
+    matrix = []
+    
+    row = [0]*n
+    
+    for counter in range(n):
+        matrix += [row]
+    return matrix
 
 def has_zero(mat):
-    "Your answer here"
+    result = False
+    for row in mat:
+        for element in row:
+            if element == 0:
+                result = True
+    return result
 
 def add_two(mat):
-    "Your answer here"
+    if has_zero(mat) == False:
+        return mat
+    else:
+        zero_list = []
+        for row_position in range(len(mat)):
+            for element_position in range(len(mat[row_position])): # create a list with positions of all the zeros in mat
+                if mat[row_position][element_position] == 0:
+                    zero_list.append([row_position,element_position])
+                    
+        chosen_zero = zero_list[randint(0, len(zero_list)-1)]
+        
+        mat[chosen_zero[0]][chosen_zero[1]] = 2 # make zero two
+        return mat
 
 ###########
 # Task 2  #
 ###########
 
+def win_state(mat):
+    result = False # False means have not won
+    for row in mat:
+        for element in row:
+            if element == 2048:
+                result = True # True means won
+    return result
+
+def lose_state(mat):
+    result = False # False means lose
+    if has_zero(mat) == True: # there is a zero in the matrix -> not lost
+        result = True
+    else:
+        for i in range(len(mat)-1): # number beside is the same number -> not lost
+            for j in range(len(mat)-1):
+                if mat[i][j] == mat[i+1][j] or mat[i][j] == mat[i][j+1]:
+                    result = True
+    return result
+    
 def game_status(mat):
-    "Your answer here"
+    if lose_state(mat) == False:
+        return 'lose'
+    elif win_state(mat) == True:
+        return 'win'
+    else:
+        return 'not over'
+
+# print(game_status([[2, 0, 2, 4], [0, 2, 4, 2], [2, 4, 0, 4], [4, 2, 4, 0]]))
+# print(game_status([[2, 4, 16, 4], [4, 2, 2, 2], [2, 4, 2, 4], [4, 2, 4, 8]]))
+# print(game_status([[2, 4, 2, 4], [4, 2, 4, 2], [2, 4, 2, 4], [4, 2, 4, 2]]))
+# print(game_status([[2, 0, 2, 2], [0, 0, 0, 4], [4, 0, 8, 4], [2, 0, 0, 2048]]))
 
 ###########
 # Task 3a #
 ###########
 
 def transpose(mat):
-    "Your answer here"
+    new_mat = []
+    for i in range(len(mat[0])): 
+        row = list(map(lambda lst: lst[i], mat)) 
+        new_mat.append(row)
+    return new_mat
+
+# print(transpose([[1, 2, 3], [4, 5, 6]]))
 
 ###########
 # Task 3b #
 ###########
 
 def reverse(mat):
-    "Your answer here"
+    reversed_mat = [list(x) for x in mat]
+    for i in reversed_mat:
+        i.reverse()
+    return reversed_mat
+
+# print(reverse([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]))
 
 ############
 # Task 3ci #
 ############
 
 def merge_left(mat):
-    "Your answer here"
+    
+    increment = []
+    
+    def merge_left_row(row):
+        result_row = []
+        correct_len = len(row)
+        
+        def helper(row):
+            current_tile = row[0]
+            if len(row) == 1: # if one last element, add to current tile
+                result_row.append(current_tile)
+            elif len(row) == 0: # if no elements, end helper
+                return []
+            elif current_tile == 0: # for all cases of 0, the next number is then considered
+                return helper(row[1:len(row)])
+            elif len(row) == 2: # if two elements left to consider
+                next_tile = row[1]
+                if current_tile == next_tile:
+                    result_row.append(current_tile*2)
+                    increment.append(current_tile*2)
+                elif current_tile != next_tile:
+                    result_row.append(current_tile)
+                    return helper(row[1:len(row)])
+            elif len(row) > 2:
+                next_tile = row[1]
+                if current_tile == next_tile: # if current = next, add them together and look at the rest
+                    result_row.append(current_tile*2)
+                    increment.append(current_tile*2)
+                    return helper(row[2:len(row)])
+                elif next_tile == 0: # if next = 0, consider current and the rest.
+                    return helper([current_tile] + row[2:len(row)])
+                elif current_tile != next_tile: # if next != 0 and current != next, consider rest and append current to result
+                    result_row.append(current_tile)
+                    return helper(row[1:len(row)])
+            
+        helper(row)
+        result_len = len(result_row)
+        number_of_zeros = correct_len - result_len
+        result_row += [0]*number_of_zeros
+        
+        return result_row
+    
+    new_mat = []
+    for row in mat:
+        new_mat.append(merge_left_row(row))
+    return (new_mat, new_mat != mat, sum(increment))
+
+# print(merge_left([[2, 2, 0, 2], [4, 0, 0, 0], [4, 8, 0, 4], [0, 0, 0, 2]]))
 
 #############
 # Task 3cii #
 #############
 
 def merge_right(mat):
-    "Your answer here"
+    
+    reverse_mat = reverse(mat)
+    
+    increment = []
+    
+    def merge_left_row(row):
+        result_row = []
+        correct_len = len(row)
+        
+        def helper(row):
+            current_tile = row[0]
+            if len(row) == 1: # if one last element, add to current tile
+                result_row.append(current_tile)
+            elif len(row) == 0: # if no elements, end helper
+                return []
+            elif current_tile == 0: # for all cases of 0, the next number is then considered
+                return helper(row[1:len(row)])
+            elif len(row) == 2: # if two elements left to consider
+                next_tile = row[1]
+                if current_tile == next_tile:
+                    result_row.append(current_tile*2)
+                    increment.append(current_tile*2)
+                elif current_tile != next_tile:
+                    result_row.append(current_tile)
+                    return helper(row[1:len(row)])
+            elif len(row) > 2:
+                next_tile = row[1]
+                if current_tile == next_tile: # if current = next, add them together and look at the rest
+                    result_row.append(current_tile*2)
+                    increment.append(current_tile*2)
+                    return helper(row[2:len(row)])
+                elif next_tile == 0: # if next = 0, consider current and the rest.
+                    return helper([current_tile] + row[2:len(row)])
+                elif current_tile != next_tile: # if next != 0 and current != next, consider rest and append current to result
+                    result_row.append(current_tile)
+                    return helper(row[1:len(row)])
+            
+        helper(row)
+        result_len = len(result_row)
+        number_of_zeros = correct_len - result_len
+        result_row += [0]*number_of_zeros
+        
+        return result_row
+    
+    new_mat = []
+    for row in reverse_mat:
+        new_mat.append(merge_left_row(row))
+    return (reverse(new_mat), reverse(new_mat) != mat, sum(increment))
+
+# print(merge_right([[2, 2, 0, 2], [4, 0, 0, 0], [4, 8, 0, 4], [0, 0, 0, 2]]))
 
 def merge_up(mat):
-    "Your answer here"
+    
+    transpose_mat = transpose(mat)
+    
+    increment = []
+    
+    def merge_left_row(row):
+        result_row = []
+        correct_len = len(row)
+        
+        def helper(row):
+            current_tile = row[0]
+            if len(row) == 1: # if one last element, add to current tile
+                result_row.append(current_tile)
+            elif len(row) == 0: # if no elements, end helper
+                return []
+            elif current_tile == 0: # for all cases of 0, the next number is then considered
+                return helper(row[1:len(row)])
+            elif len(row) == 2: # if two elements left to consider
+                next_tile = row[1]
+                if current_tile == next_tile:
+                    result_row.append(current_tile*2)
+                    increment.append(current_tile*2)
+                elif current_tile != next_tile:
+                    result_row.append(current_tile)
+                    return helper(row[1:len(row)])
+            elif len(row) > 2:
+                next_tile = row[1]
+                if current_tile == next_tile: # if current = next, add them together and look at the rest
+                    result_row.append(current_tile*2)
+                    increment.append(current_tile*2)
+                    return helper(row[2:len(row)])
+                elif next_tile == 0: # if next = 0, consider current and the rest.
+                    return helper([current_tile] + row[2:len(row)])
+                elif current_tile != next_tile: # if next != 0 and current != next, consider rest and append current to result
+                    result_row.append(current_tile)
+                    return helper(row[1:len(row)])
+            
+        helper(row)
+        result_len = len(result_row)
+        number_of_zeros = correct_len - result_len
+        result_row += [0]*number_of_zeros
+        
+        return result_row
+    
+    new_mat = []
+    for row in transpose_mat:
+        new_mat.append(merge_left_row(row))
+    return (transpose(new_mat), transpose(new_mat) != mat, sum(increment))
+
+# print(merge_up([[2, 2, 0, 2], [4, 0, 0, 0], [4, 8, 0, 4], [0, 0, 0, 2]]))
 
 def merge_down(mat):
-    "Your answer here"
+    
+    transpose_reverse_mat = reverse(transpose(mat))
+    
+    increment = []
+    
+    def merge_left_row(row):
+        result_row = []
+        correct_len = len(row)
+        
+        def helper(row):
+            current_tile = row[0]
+            if len(row) == 1: # if one last element, add to current tile
+                result_row.append(current_tile)
+            elif len(row) == 0: # if no elements, end helper
+                return []
+            elif current_tile == 0: # for all cases of 0, the next number is then considered
+                return helper(row[1:len(row)])
+            elif len(row) == 2: # if two elements left to consider
+                next_tile = row[1]
+                if current_tile == next_tile:
+                    result_row.append(current_tile*2)
+                    increment.append(current_tile*2)
+                elif current_tile != next_tile:
+                    result_row.append(current_tile)
+                    return helper(row[1:len(row)])
+            elif len(row) > 2:
+                next_tile = row[1]
+                if current_tile == next_tile: # if current = next, add them together and look at the rest
+                    result_row.append(current_tile*2)
+                    increment.append(current_tile*2)
+                    return helper(row[2:len(row)])
+                elif next_tile == 0: # if next = 0, consider current and the rest.
+                    return helper([current_tile] + row[2:len(row)])
+                elif current_tile != next_tile: # if next != 0 and current != next, consider rest and append current to result
+                    result_row.append(current_tile)
+                    return helper(row[1:len(row)])
+            
+        helper(row)
+        result_len = len(result_row)
+        number_of_zeros = correct_len - result_len
+        result_row += [0]*number_of_zeros
+        
+        return result_row
+    
+    new_mat = []
+    for row in transpose_reverse_mat:
+        new_mat.append(merge_left_row(row))
+    return (transpose(reverse(new_mat)), transpose(reverse(new_mat)) != mat, sum(increment))
+    
+# print(merge_down([[2, 2, 0, 2], [4, 0, 0, 0], [4, 8, 0, 4], [0, 0, 0, 2]]))
 
 ###########
 # Task 3d #
@@ -118,40 +377,50 @@ def text_play():
             return
 
 # UNCOMMENT THE FOLLOWING LINE TO TEST YOUR GAME
-#text_play()
+# text_play()
 
 # How would you test that the winning condition works?
-# Your answer:
-#
+# Your answer: I would create a code that uses recursion to decide on the next move such that it
+# makes the most logical move to possibly reach 2048. If the game ends at 2048, the winning condition 
+# works.
 
 ##########
 # Task 4 #
 ##########
 
 def make_state(matrix, total_score):
-    "Your answer here"
+    return (matrix, total_score)
 
 def get_matrix(state):
-    "Your answer here"
+    return state[0]
 
 def get_score(state):
-    "Your answer here"
+    return state[1]
 
 def make_new_game(n):
-    "Your answer here"
+    return make_state(add_two(add_two(new_game_matrix(n))), 0)
+
+def adder(result, state): # to add two into the game
+    if result[1] == True:
+        return (make_state(add_two(result[0]), get_score(state) + result[2]), result[1])
+    else:
+        return (make_state(result[0], get_score(state) + result[2]), result[1])   
 
 def left(state):
-    "Your answer here"
+    result = merge_left(get_matrix(state))
+    return adder(result, state)   
 
 def right(state):
-    "Your answer here"
+    result = merge_right(get_matrix(state))
+    return adder(result, state)   
 
 def up(state):
-    "Your answer here"
+    result = merge_up(get_matrix(state))
+    return adder(result, state)   
 
 def down(state):
-    "Your answer here"
-
+    result = merge_down(get_matrix(state))
+    return adder(result, state)   
 
 # Do not edit this #
 game_logic = {
