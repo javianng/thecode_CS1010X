@@ -75,8 +75,12 @@ fb_data = read_json('cs1010x-fbdata.json')
 ##########
 
 def count_comments(data):
-    # Returns the total number of comments
-    return
+    counter = 0
+    for data_type in data['feed']['data']:
+        if "comments" in data_type:
+            for comments in data_type['comments']['data']:
+                counter+=1
+    return counter
 
 # print("Number of Comments in CS1010X: ", count_comments(fb_data))
 
@@ -85,8 +89,15 @@ def count_comments(data):
 ##########
 
 def count_likes(data):
-    # Returns the total number of likes (in feed posts and comments)
-    return
+    counter = 0
+    for data_type in data["feed"]["data"]:
+        if "likes" in data_type:
+            for i in data_type["likes"]["data"]:
+                counter += 1
+        if "comments" in data_type:
+            for comment_data_type in data_type["comments"]["data"]:
+                counter += comment_data_type["like_count"]
+    return counter
 
 # print("Number of Likes in CS1010X: ", count_likes(fb_data))
 
@@ -95,25 +106,38 @@ def count_likes(data):
 ##########
 
 def create_member_dict(data):
-    # Lookup table where key is id and value is member data object
-    return
+    member_dict = {}
+    for i in data["members"]["data"]:
+        if not "gender" in i:
+            member_dict[i["id"]] = {"name": i["name"]}
+        else:
+            member_dict[i["id"]] = {"gender": i["gender"], "name": i["name"]}
+    return member_dict
 
-member_dict = create_member_dict(fb_data)
+# member_dict = create_member_dict(fb_data)
 # print(member_dict["10205702832196255"])
 
 # Q: Why did we choose the id of the member data object to be the key?
-# A:
+# A: This allows us to find the member using the id that is shared to the social media account. There would 
+# not be the same index used to represent different members, making it suitable as a unique identifier.
 
 # Q: It is inappropriate to use the name as the key. What will happen if we use the name as the key of member_dict?
-# A:
+# A: This would cause issues when two people have the exact same name. There would be an overide of dictionary values
+# and the very first imput will be overide by the next one.
 
 ##########
 # Task d #
 ##########
 
 def posts_freq(data):
-    # Returns a dict where key is fb_id and value is number of posts in feed
-    return
+    freq_dict = {}
+    for i in data["feed"]["data"]:
+        if "from" in i:
+            if i["from"]["id"] not in freq_dict:
+                freq_dict[i["from"]["id"]] = 1
+            else:
+                freq_dict[i["from"]["id"]] += 1
+    return freq_dict
 
 # print("Posts Frequency: ", posts_freq(fb_data))
 
@@ -122,8 +146,15 @@ def posts_freq(data):
 ##########
 
 def comments_freq(data):
-    # Returns a dict where key is fb_id and value is number of comments in feed
-    return
+    freq_dict = {}
+    for i in data["feed"]["data"]:
+        if "comments" in i:
+            for j in i["comments"]["data"]:
+                if j["from"]["id"] not in freq_dict:
+                    freq_dict[j["from"]["id"]] = 1
+                else:
+                    freq_dict[j["from"]["id"]] += 1
+    return freq_dict
 
 # print("Comments Frequency: ", comments_freq(fb_data))
 
