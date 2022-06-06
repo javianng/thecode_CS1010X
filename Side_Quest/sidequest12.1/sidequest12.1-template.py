@@ -222,6 +222,7 @@ def member_stats(data):
     return member_dict
 
 stats = member_stats(fb_data)
+
 # print(stats["10152805891837166"])
 
 ##########
@@ -232,10 +233,11 @@ def activity_score(data):
     score_dict = {}
     score_stats = member_stats(data)
     for i in score_stats:
-        score_dict[i] = (score_stats[i]['posts_count'] * 3) + (score_stats[i]['comments_count'] * 2) + (score_stats[i]['likes_count'])       
+        score_dict[i] = (score_stats[i]['posts_count'] * 3) + (score_stats[i]['comments_count'] * 2) + (score_stats[i]['likes_count'])
     return score_dict
 
 scores = activity_score(fb_data)
+
 # print(scores["10153020766393769"]) # => 30
 # print(scores["857756387629369"]) # => 8
 
@@ -251,10 +253,10 @@ def active_members_of_type(data, k, type_fn):
         if i in freq_dict:
             if freq_dict[i] >= k:
                 final_list.append([member_dict[i]['name'], freq_dict[i]])
-
+                
     final_list.sort(key=lambda x: x[0])                
     final_list.sort(key=lambda x: x[1], reverse=True)
-
+    
     return final_list
 
 # print(active_members_of_type(fb_data, 2, posts_freq))
@@ -266,7 +268,6 @@ def active_members_of_type(data, k, type_fn):
 # print(active_members_of_type(fb_data, 20, popularity_score))
 
 # print(active_members_of_type(fb_data, 80, activity_score))
-
 
 ########### DO NOT REMOVE THE TEST BELOW ###########
 
