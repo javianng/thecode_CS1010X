@@ -163,8 +163,16 @@ def comments_freq(data):
 ##########
 
 def likes_freq(data):
-    # Returns a dict where key is fb_id and value is number of likes in feed
-    return
+    freq_dict = {}
+    for i in data["feed"]["data"]:
+        if "likes" in i:
+            for j in i["likes"]["data"]:
+                if j["id"] not in freq_dict:
+                    freq_dict[j["id"]] = 1
+                else:
+                    freq_dict[j["id"]] += 1
+                    
+    return freq_dict
 
 # print("Likes Frequency: ", likes_freq(fb_data))
 
@@ -173,9 +181,22 @@ def likes_freq(data):
 ##########
 
 def popularity_score(data):
-    # Returns a dict where key is fb_id and value is the number of likes
-    # a person's posts and comments have
-    return
+    score_dict = {}
+    score = 0
+    for i in data["feed"]["data"]:
+        if "from" in i and "likes" in i:
+            if i["from"]["id"] not in score_dict:
+                score_dict[i["from"]["id"]] = len(i["likes"]["data"])
+            else:
+                score_dict[i["from"]["id"]] += len(i["likes"]["data"])
+        if "comments" in i:
+            for j in i["comments"]["data"]:
+                if j["like_count"] > 0:
+                    if j["from"]["id"] not in score_dict:
+                        score_dict[j["from"]["id"]] = j["like_count"]
+                    else:
+                        score_dict[j["from"]["id"]] += j["like_count"]
+    return score_dict
 
 # print("Popularity Score: ", popularity_score(fb_data))
 
@@ -184,9 +205,21 @@ def popularity_score(data):
 ##########
 
 def member_stats(data):
-    # Expand the member dict to include the keys:
-    # 'posts_count', 'comments_count' and 'likes_count'
-    return
+    member_dict = create_member_dict(data)
+    for i in member_dict:
+        if i in posts_freq(data):
+            member_dict[i]["posts_count"] = posts_freq(data)[i]
+        else:
+            member_dict[i]["posts_count"] = 0
+        if i in comments_freq(data): 
+            member_dict[i]["comments_count"] = comments_freq(data)[i]
+        else:
+            member_dict[i]["comments_count"] = 0
+        if i in likes_freq(data):
+            member_dict[i]["likes_count"] = likes_freq(data)[i]
+        else:
+            member_dict[i]["likes_count"] = 0
+    return member_dict
 
 stats = member_stats(fb_data)
 # print(stats["10152805891837166"])
@@ -196,22 +229,33 @@ stats = member_stats(fb_data)
 ##########
 
 def activity_score(data):
-    return
+    score_dict = {}
+    score_stats = member_stats(data)
+    for i in score_stats:
+        score_dict[i] = (score_stats[i]['posts_count'] * 3) + (score_stats[i]['comments_count'] * 2) + (score_stats[i]['likes_count'])       
+    return score_dict
 
 scores = activity_score(fb_data)
 # print(scores["10153020766393769"]) # => 30
 # print(scores["857756387629369"]) # => 8
-
 
 ##########
 # Task j #
 ##########
 
 def active_members_of_type(data, k, type_fn):
-    # This is a higher order function, where type is a function and
-    # can be either posts_freq, comments_freq, likes_freq, etc
-    # and filters out the pairs that have frequency >= k
-    return
+    member_dict = create_member_dict(data)
+    freq_dict = type_fn(data)
+    final_list = []
+    for i in member_dict:
+        if i in freq_dict:
+            if freq_dict[i] >= k:
+                final_list.append([member_dict[i]['name'], freq_dict[i]])
+
+    final_list.sort(key=lambda x: x[0])                
+    final_list.sort(key=lambda x: x[1], reverse=True)
+
+    return final_list
 
 # print(active_members_of_type(fb_data, 2, posts_freq))
 
@@ -222,8 +266,6 @@ def active_members_of_type(data, k, type_fn):
 # print(active_members_of_type(fb_data, 20, popularity_score))
 
 # print(active_members_of_type(fb_data, 80, activity_score))
-
-
 
 
 ########### DO NOT REMOVE THE TEST BELOW ###########
