@@ -400,7 +400,7 @@ def get_score(state):
 def make_new_game(n):
     return make_state(add_two(add_two(new_game_matrix(n))), 0)
 
-def adder(result, state): # to add two into the game
+def adder(result, state):
     if result[1] == True:
         return (make_state(add_two(result[0]), get_score(state) + result[2]), result[1])
     else:
@@ -447,29 +447,29 @@ game_logic = {
 ###########
 
 def make_new_record(mat, increment):
-    "Your answer here"
+    return [mat, increment]
 
 def get_record_matrix(record):
-    "Your answer here"
+    return record[0]
 
 def get_record_increment(record):
-    "Your answer here"
+    return record[1]
 
 ############
 # Task 5ii #
 ############
 
 def make_new_records():
-    "Your answer here"
+    return []
 
 def push_record(new_record, stack_of_records):
-    "Your answer here"
+    return [new_record] + stack_of_records
 
 def is_empty(stack_of_records):
-    "Your answer here"
+    return stack_of_records == []
 
 def pop_record(stack_of_records):
-    "Your answer here"
+    return stack_of_records[len(stack_of_records)-1]
 
 #############
 # Task 5iii #
@@ -477,32 +477,33 @@ def pop_record(stack_of_records):
 
 # COPY AND UPDATE YOUR FUNCTIONS HERE
 def make_state(matrix, total_score, records):
-    "Your answer here"
+    return [matrix, total_score, records]
 
 def get_matrix(state):
-    "Your answer here"
+    return state[0]
 
 def get_score(state):
-    "Your answer here"
+    return state[1]
 
 def make_new_game(n):
-    "Your answer here"
+    new_matrix = add_two(add_two(new_game_matrix(n)))
+    return make_state(new_matrix, 0, [new_matrix])
 
 def left(state):
-    "Your answer here"
+    pass
 
 def right(state):
-    "Your answer here"
+    pass
 
 def up(state):
-    "Your answer here"
+    pass
 
 def down(state):
-    "Your answer here"
+    pass
 
 # NEW FUNCTIONS TO DEFINE
 def get_records(state):
-    "Your answer here"
+    return state[2]
 
 def undo(state):
     "Your answer here"
