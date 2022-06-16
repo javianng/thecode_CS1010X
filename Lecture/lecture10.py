@@ -33,7 +33,7 @@ def push_stack(stack, item):
     '''Pushes item onto the stack, returns the stack'''
     
     stack.append(item)
-    return stack
+    return 
 
 def pop_stack(stack):
     
