@@ -229,21 +229,139 @@ class Number(object):
                 return result.rstrip()
         return spell_function(self.num)
 
-elite_number=Number(1337)
-good_day_number=Number(210792)
-bigno=good_day_number.times(elite_number)
+# elite_number=Number(1337)
+# good_day_number=Number(210792)
+# bigno=good_day_number.times(elite_number)
 
-elite_number.spell()
-good_day_number.spell()
-bigno.spell()
+# elite_number.spell()
+# good_day_number.spell()
+# bigno.spell()
 
 # Question 6
 
 def power_set(lst):
     result = [[]]
-    for x in lst:
+    for x in lst :
         newsubsets = [subset + [x] for subset in result]
         result.extend(newsubsets)
     return result
 
-print(power_set([1,2,3]))
+# print(power_set([1,2,3]))
+
+# Question 7
+
+def power_set_check(lst):
+    flatten_lst = []
+    for element in lst:
+        for sub_element in element:
+            flatten_lst.append(sub_element)
+    original_elements = list(set(flatten_lst)) # seek out base elements
+    correct_power_set = power_set(original_elements) # seek out correct power set
+    
+    # sort list for comparison
+    
+    return sorted(lst) == sorted(correct_power_set)
+    
+# print(power_set_check([[1,2,3],[1,2],[1,3],[2,3],[1],[2],[3],[]]))
+# print(power_set_check([[1,2,3]]))
+# print(power_set_check([[], ['lugia'], ['ho-oh'], ['ho-oh' , 'lugia']]))
+# print(power_set_check([[1, 2, 3]]))
+# print(power_set_check([[1,2,3],[1,2],[1,3],[2,3],[1],[2],[3],[]]))
+
+# Question 8
+
+def enumerate_interval(min, max):
+    return list(range(min, max+1))
+
+def map(fn, seq):
+    if seq == []:
+        return []
+    else:
+        return [fn(seq[0]),] + map(fn, seq[1:])
+
+def filter(pred, seq):
+    if seq == []:
+        return []
+    elif pred(seq[0]):
+        return [seq[0],] + filter(pred, seq[1:])
+    else:
+        return filter(pred, seq[1:])
+
+def accumulate(fn, initial, seq):
+    if seq == []:
+        return initial
+    else:
+        return fn(seq[0], accumulate(fn, initial, seq[1:]))
+
+# Leave your answers below   
+    
+def part_i():
+    '''code for [1, 2, 3, 4, 5, 6, 7, 8]'''
+    return enumerate_interval(1,8)
+
+# print(part_i())
+
+def part_ii():
+    '''code for [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]'''
+    return filter(lambda x: x%5==0, enumerate_interval(5, 60))
+
+# print(part_ii())
+
+def part_iii():
+    '''code for [1, 9, 25, 49, 81, 121]'''
+    return map(lambda x: x ** 2, filter(lambda x: x%2 == 1, enumerate_interval(1,11)))
+
+# print(part_iii())
+
+def part_iv():
+    '''code for [1, 1, 9, 2, 25, 3, 49, 4, 81, 5]'''
+    list1 = map(lambda x: x ** 2, filter(lambda x: x%2 == 1, enumerate_interval(1,9)))
+    list2 = enumerate_interval(1,5)
+    list_combined = []
+    for i in range(len(list1)):
+        list_combined.append(list1[i])
+        list_combined.append(list2[i])
+    return list_combined
+
+# print(part_iv())
+
+def part_v():
+    '''code for [20, 16, 14, 10, 8, 4, 2]'''
+    10,8,7,5,4,2,1
+    list1 = map(lambda x: x*2, filter(lambda x: x%3 != 0, enumerate_interval(1,10)))
+    list1.reverse()
+    return list1
+
+# print(part_v())
+
+# Question 9
+
+def make_stack():
+    stack = []
+    def helper(keyword, *arg):
+        if keyword == 'push':
+            return stack.extend(arg)
+        elif keyword == "pop":
+            if not stack:
+                return None
+            return stack.pop()
+        elif keyword == "peek":
+            if not stack:
+                return None
+            return stack[-1]
+        elif keyword == "size":
+            return len(stack)
+    return helper
+    
+# stk=make_stack()
+# stk('push',1)
+# stk('push',2)
+# stk('push',3)
+# stk('peek')
+# print(stk('pop'))
+
+# Question 10
+
+def prefix_infix(lst):
+    #your code here
+    return
