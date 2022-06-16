@@ -362,6 +362,68 @@ def make_stack():
 
 # Question 10
 
+# def prefix_infix(lst):
+#     if isinstance(lst[1], list):
+#         return "(" + prefix_infix(lst[1]) + " " + lst[0] + " " + prefix_infix (lst[2]) + ")"
+#     return "(" + str(lst[1]) + " " + lst[0] + " " + str (lst[2]) + ")"
+
 def prefix_infix(lst):
-    #your code here
-    return
+    if isinstance(lst, list):
+        op, left, right = lst
+        return '(' + prefix_infix(left) + " " + op + " " + prefix_infix(right) + ')'
+    else:
+        return str(lst)
+
+def prefix_infix(lst): 
+    stk=make_stack() 
+    def helper(lst):
+        if type(lst)==int: 
+            stk('push',str(lst))
+        elif lst in ('+','-','*','/'): 
+            left=stk('pop')
+            right=stk('pop')
+            element="("+left+" "+lst+" "+right+")"
+            stk('push',element)
+        else:
+            return helper(lst[2]),helper(lst[1]),helper(lst[0]) 
+    helper(lst)
+    return stk('pop')
+
+# print(prefix_infix(['+',['*',5,4],['-',2,1]]))
+# print(prefix_infix(['-',['*',5,4],['-',['/',1,45],['+',1,1]]]))
+
+# Question 11
+
+def bubble_sort(lst):
+    # loop to access each array element
+    for i in range(len(lst)):
+        
+        # loop to compare array elements
+        for j in range(len(lst) - i - 1):
+            
+            # compare two adjacent elements
+            # change > to < to sort in descending order
+            if lst[j] > lst[j + 1]:
+                
+                # swapping elements if elements
+                # are not in the intended order
+                temp = lst[j]
+                lst[j] = lst[j+1]
+                lst[j+1] = temp
+    return lst
+
+# print(bubble_sort([5,3,2,6,7,8,1,4]))
+
+# Question 12
+
+def split(n,lst):
+    above_n_list = []
+    below_n_list = []
+    for element in lst:
+        if element <= n:
+            below_n_list.append(element)
+        else:
+            above_n_list.append(element)
+    return [below_n_list, above_n_list]
+
+# print(split(5,[1,10,4,9,7,2,5,8,3,4,9,6,2]))
