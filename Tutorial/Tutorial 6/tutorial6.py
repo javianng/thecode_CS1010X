@@ -111,7 +111,7 @@ def col_sum(m):
             res[j] += m[i][j]
     return res
 
-# print(col_sum([[1,2],[3,4],[5,6]]))
+print(col_sum([[1,2],[3,4],[5,6]]))
 
 # Question 6
 
@@ -170,7 +170,7 @@ def transpose(m):
 
 ### DO NOT MODIFY THIS ###
 matrix1 = [[ 1, 2, 3], [4, 5, 6], [7, 8, 9]]
-matrix2 = [[ 1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 1  1, 12]]
+matrix2 = [[ 1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 1, 12]]
 matrix3 = [[1, 2, 3]]
 
 # print(transpose(matrix1))
